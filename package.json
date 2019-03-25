@@ -1,0 +1,42 @@
+{
+  "name": "@softwareventures/decimal",
+  "version": "0.0.0-development",
+  "description": "High precision decimal numeric data type",
+  "keywords": [
+    "TypeScript",
+    "decimal",
+    "numeric"
+  ],
+  "author": "Daniel Cassidy <mail@danielcassidy.me.uk>",
+  "homepage": "https://github.com/softwareventures/decimal",
+  "bugs": "https://github.com/softwareventures/decimal/issues",
+  "repository": "github:softwareventures/decimal",
+  "license": "ISC",
+  "scripts": {
+    "prepare": "tsc",
+    "test": "tslint --project . && ava"
+  },
+  "devDependencies": {
+    "@softwareventures/tsconfig": "1.0.0",
+    "@softwareventures/tslint-rules": "0.6.6",
+    "ava": "1.4.0",
+    "cz-conventional-changelog": "2.1.0",
+    "ts-node": "8.0.3",
+    "tslint": "5.14.0",
+    "typescript": "3.3.4000"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "ava": {
+    "compileEnhancements": false,
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  }
+}
