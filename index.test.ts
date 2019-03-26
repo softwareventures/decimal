@@ -16,3 +16,21 @@ test("normalize", t => {
     t.deepEqual(normalize({units: -1.1}), {units: -1, billionths: -100000000, toString});
     t.deepEqual(normalize({units: -2, billionths: 1}), {units: -1, billionths: -999999999, toString});
 });
+
+test("toString", t => {
+    t.is(normalize({}).toString(), "0");
+    t.is(normalize({units: 1}).toString(), "1");
+    t.is(normalize({billionths: 1}).toString(), "0.000000001");
+    t.is(normalize({billionths: 21}).toString(), "0.000000021");
+    t.is(normalize({billionths: 30}).toString(), "0.00000003");
+    t.is(normalize({units: 1, billionths: 1}).toString(), "1.000000001");
+    t.is(normalize({units: -1}).toString(), "-1");
+    t.is(normalize({billionths: -1}).toString(), "-0.000000001");
+    t.is(normalize({units: 1, billionths: -1}).toString(), "0.999999999");
+    t.is(normalize({units: -1, billionths: 1}).toString(), "-0.999999999");
+    t.is(normalize({units: 1, billionths: 100000000}).toString(), "1.1");
+    t.is(normalize({units: 2, billionths: 340000000}).toString(), "2.34");
+    t.is(normalize({units: 1 / 0}).toString(), "Infinity");
+    t.is(normalize({units: -1 / 0}).toString(), "-Infinity");
+    t.is(normalize({units: 0 / 0}).toString(), "NaN");
+});
