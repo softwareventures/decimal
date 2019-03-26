@@ -11,12 +11,12 @@ function toString(this: Partial<Readonly<Decimal>>): string {
         return "" + units;
     } else if (units < 0 || billionths < 0) {
         return "-" + (-units) + "."
-            + ("00000000" + Math.round(-billionths))
+            + ("00000000" + (-billionths))
                 .substr(-9)
                 .replace(/0*$/, "");
     } else {
         return "" + units + "."
-            + ("00000000" + Math.round(billionths))
+            + ("00000000" + billionths)
                 .substr(-9)
                 .replace(/0*$/, "");
     }
@@ -32,10 +32,10 @@ export function normalize(value: Partial<Readonly<Decimal>>): Decimal {
     if (isFinite(units)) {
         billionths = value.units == null
             ? 0
-            : (value.units - units) * 1e9;
+            : Math.round((value.units - units) * 1e9);
 
         if (value.billionths != null) {
-            billionths += value.billionths;
+            billionths += Math.round(value.billionths);
         }
 
         if (isFinite(billionths)) {
