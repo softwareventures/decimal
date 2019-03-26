@@ -22,7 +22,11 @@ function toString(this: Partial<Readonly<Decimal>>): string {
     }
 }
 
-export function normalize(value: Partial<Readonly<Decimal>>): Decimal {
+export function normalize(value: Partial<Readonly<Decimal>> | number): Decimal {
+    if (typeof value === "number") {
+        value = {units: value};
+    }
+
     let units = value.units == null
         ? 0
         : Math.floor(value.units);
@@ -66,7 +70,7 @@ export function normalize(value: Partial<Readonly<Decimal>>): Decimal {
 
 export const zero = Object.freeze(normalize({}));
 
-export function negate(value: Partial<Readonly<Decimal>>): Decimal {
+export function negate(value: Partial<Readonly<Decimal>> | number): Decimal {
     const {units, billionths, toString} = normalize(value);
     return {
         units: -units,
