@@ -65,3 +65,12 @@ export function normalize(value: Partial<Readonly<Decimal>>): Decimal {
 }
 
 export const zero = Object.freeze(normalize({}));
+
+export function negate(value: Partial<Readonly<Decimal>>): Decimal {
+    const {units, billionths, toString} = normalize(value);
+    return {
+        units: -units,
+        billionths: -billionths,
+        toString
+    };
+}
