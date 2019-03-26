@@ -78,3 +78,20 @@ export function negate(value: Partial<Readonly<Decimal>> | number): Decimal {
         toString
     };
 }
+
+export function add(a: Partial<Readonly<Decimal>> | number, b: Partial<Readonly<Decimal>> | number): Decimal {
+    if (typeof a === "number") {
+        const {units, billionths} = normalize(b);
+        return normalize({units: a + units, billionths});
+    } else if (typeof b === "number") {
+        const {units, billionths} = normalize(a);
+        return normalize({units: units + b, billionths});
+    } else {
+        const an = normalize(a);
+        const bn = normalize(b);
+        return normalize({
+            units: an.units + bn.units,
+            billionths: an.units + bn.units
+        });
+    }
+}
