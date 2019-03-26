@@ -63,3 +63,5 @@ export function normalize(value: Partial<Readonly<Decimal>>): Decimal {
 
     return {units, billionths, toString};
 }
+
+export const zero = Object.freeze(normalize({}));
