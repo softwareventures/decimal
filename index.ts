@@ -95,3 +95,7 @@ export function add(a: Partial<Readonly<Decimal>> | number, b: Partial<Readonly<
         });
     }
 }
+
+export function subtract(a: Partial<Readonly<Decimal>> | number, b: Partial<Readonly<Decimal>> | number): Decimal {
+    return add(a, negate(b));
+}
