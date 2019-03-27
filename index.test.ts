@@ -25,6 +25,9 @@ test("normalize", t => {
     t.deepEqual(normalize({units: 0 / 0}), {units: 0 / 0, billionths: 0 / 0, toString});
     t.deepEqual(normalize({units: 0 / 0, billionths: 1}), {units: 0 / 0, billionths: 0 / 0, toString});
     t.deepEqual(normalize({units: 3, billionths: 0 / 0}), {units: 0 / 0, billionths: 0 / 0, toString});
+    t.deepEqual(normalize({units: 5, billionths: 111111111.1}), {units: 5, billionths: 111111111, toString});
+    t.deepEqual(normalize({units: 7, billionths: 111111111.5}), {units: 7, billionths: 111111112, toString});
+    t.deepEqual(normalize({units: 9, billionths: 999999999.5}), {units: 10, billionths: 0, toString});
 });
 
 test("toString", t => {
