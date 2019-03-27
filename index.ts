@@ -104,6 +104,23 @@ export function subtract(a: DecimalLike, b: DecimalLike): Decimal {
     return add(a, negate(b));
 }
 
+export function multiply(a: DecimalLike, b: DecimalLike): Decimal {
+    if (typeof a === "number") {
+        const {units, billionths} = normalize(b);
+        return normalize({units: a * units, billionths: a * billionths});
+    } else if (typeof b === "number") {
+        const {units, billionths} = normalize(a);
+        return normalize({units: units * b, billionths: billionths * b});
+    } else {
+        const an = normalize(a);
+        const bn = normalize(b);
+        return normalize({
+            units: an.units * bn.units,
+            billionths: an.units * bn.billionths + an.billionths * bn.units + an.billionths * bn.billionths * 1e-9
+        });
+    }
+}
+
 export const compare: Comparator<DecimalLike> = (a, b) => {
     const an = normalize(a);
     const bn = normalize(b);
