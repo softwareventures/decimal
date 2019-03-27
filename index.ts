@@ -1,3 +1,5 @@
+import {Comparator, Comparison} from "@softwareventures/ordered";
+
 export default interface Decimal {
     units: number;
     billionths: number;
@@ -99,3 +101,22 @@ export function add(a: Partial<Readonly<Decimal>> | number, b: Partial<Readonly<
 export function subtract(a: Partial<Readonly<Decimal>> | number, b: Partial<Readonly<Decimal>> | number): Decimal {
     return add(a, negate(b));
 }
+
+export const compare: Comparator<Partial<Readonly<Decimal>> | number> = (a, b) => {
+    const an = normalize(a);
+    const bn = normalize(b);
+
+    if (an.units < bn.units) {
+        return Comparison.before;
+    } else if (an.units > bn.units) {
+        return Comparison.after;
+    } else if (an.billionths < bn.billionths) {
+        return Comparison.before;
+    } else if (an.billionths > bn.billionths) {
+        return Comparison.after;
+    } else if (an.billionths === bn.billionths) {
+        return Comparison.equal;
+    } else {
+        return Comparison.undefined;
+    }
+};

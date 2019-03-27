@@ -38,5 +38,8 @@
     "require": [
       "ts-node/register"
     ]
+  },
+  "dependencies": {
+    "@softwareventures/ordered": "^0.2.0"
   }
 }

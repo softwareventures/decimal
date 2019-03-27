@@ -325,6 +325,13 @@
   dependencies:
     arrify "^1.0.1"
 
+"@softwareventures/ordered@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@softwareventures/ordered/-/ordered-0.2.0.tgz#93e53f5adafaae5a88b674c8b919f95c6f9634be"
+  integrity sha512-20W6I2c1LoIDFCKLnkvWm+fgeITPZKtxV+P50Bhk+YFHfDCGdpwCW64zl/6j3ur+qIy64rs0a2bFimPU0t0v+A==
+  dependencies:
+    tslib "^1.9.3"
+
 "@softwareventures/tsconfig@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@softwareventures/tsconfig/-/tsconfig-1.0.0.tgz#987228780994db57e92332b4f595a81956fe7920"
