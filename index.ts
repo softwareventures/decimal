@@ -122,3 +122,27 @@ export const compare: Comparator<DecimalLike> = (a, b) => {
         return Comparison.undefined;
     }
 };
+
+export function lessThan(a: DecimalLike, b: DecimalLike): boolean {
+    return compare(a, b) < 0;
+}
+
+export function lessThanOrEqual(a: DecimalLike, b: DecimalLike): boolean {
+    return compare(a, b) <= 0;
+}
+
+export function greaterThan(a: DecimalLike, b: DecimalLike): boolean {
+    return compare(a, b) > 0;
+}
+
+export function greaterThanOrEqual(a: DecimalLike, b: DecimalLike): boolean {
+    return compare(a, b) >= 0;
+}
+
+export function equal(a: DecimalLike, b: DecimalLike): boolean {
+    return compare(a, b) === 0;
+}
+
+export function notEqual(a: DecimalLike, b: DecimalLike): boolean {
+    return compare(a, b) !== 0;
+}
