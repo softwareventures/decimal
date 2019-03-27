@@ -7,7 +7,9 @@ export default interface Decimal {
     toString(): string;
 }
 
-function toString(this: Partial<Readonly<Decimal>>): string {
+export type DecimalLike = Partial<Readonly<Decimal>> | number;
+
+function toString(this: DecimalLike): string {
     const {units, billionths} = normalize(this);
     if (!isFinite(units) || Math.abs(billionths) < 0.5 || units >= 1e21) {
         return "" + units;
@@ -24,7 +26,7 @@ function toString(this: Partial<Readonly<Decimal>>): string {
     }
 }
 
-export function normalize(value: Partial<Readonly<Decimal>> | number): Decimal {
+export function normalize(value: DecimalLike): Decimal {
     if (typeof value === "number") {
         value = {units: value};
     }
@@ -72,7 +74,7 @@ export function normalize(value: Partial<Readonly<Decimal>> | number): Decimal {
 
 export const zero = Object.freeze(normalize({}));
 
-export function negate(value: Partial<Readonly<Decimal>> | number): Decimal {
+export function negate(value: DecimalLike): Decimal {
     const {units, billionths, toString} = normalize(value);
     return {
         units: -units,
@@ -81,7 +83,7 @@ export function negate(value: Partial<Readonly<Decimal>> | number): Decimal {
     };
 }
 
-export function add(a: Partial<Readonly<Decimal>> | number, b: Partial<Readonly<Decimal>> | number): Decimal {
+export function add(a: DecimalLike, b: DecimalLike): Decimal {
     if (typeof a === "number") {
         const {units, billionths} = normalize(b);
         return normalize({units: a + units, billionths});
@@ -98,11 +100,11 @@ export function add(a: Partial<Readonly<Decimal>> | number, b: Partial<Readonly<
     }
 }
 
-export function subtract(a: Partial<Readonly<Decimal>> | number, b: Partial<Readonly<Decimal>> | number): Decimal {
+export function subtract(a: DecimalLike, b: DecimalLike): Decimal {
     return add(a, negate(b));
 }
 
-export const compare: Comparator<Partial<Readonly<Decimal>> | number> = (a, b) => {
+export const compare: Comparator<DecimalLike> = (a, b) => {
     const an = normalize(a);
     const bn = normalize(b);
 
