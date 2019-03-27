@@ -75,7 +75,7 @@ export function normalize(value: DecimalLike): Decimal {
 export const zero = Object.freeze(normalize({}));
 
 export function negate(value: DecimalLike): Decimal {
-    const {units, billionths, toString} = normalize(value);
+    const {units, billionths} = normalize(value);
     return {
         units: -units,
         billionths: -billionths,
