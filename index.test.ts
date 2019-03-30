@@ -1,5 +1,16 @@
 import test from "ava";
-import {add, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, normalize, notEqual} from "./index";
+import {
+    add,
+    compare,
+    equal,
+    greaterThan,
+    greaterThanOrEqual,
+    lessThan,
+    lessThanOrEqual,
+    normalize,
+    notEqual
+} from "./index";
+import {Comparison} from "@softwareventures/ordered";
 
 test("normalize", t => {
     t.deepEqual({...normalize({})}, {units: 0, billionths: 0});
@@ -131,4 +142,15 @@ test("notEqual", t => {
     t.false(notEqual({units: -2, billionths: -1234}, {units: -2, billionths: -1234}));
     t.true(notEqual({units: -2, billionths: -1234}, {units: -2, billionths: -123}));
     t.true(notEqual({units: -2, billionths: -1234}, {units: -2, billionths: -12345}));
+});
+
+test("compare", t => {
+    t.is(compare({units: 2, billionths: 1234}, {units: 2, billionths: 1234}), Comparison.equal);
+    t.is(compare({units: 2, billionths: 1234}, {units: 2, billionths: 123}), Comparison.after);
+    t.is(compare({units: 2, billionths: 1234}, {units: 2, billionths: 12345}), Comparison.before);
+    t.is(compare({units: 3, billionths: 123}, {units: 2, billionths: 1234}), Comparison.after);
+    t.is(compare({units: 3, billionths: 123}, {units: 4, billionths: 12}), Comparison.before);
+    t.is(compare({units: -2, billionths: -1234}, {units: -2, billionths: -1234}), Comparison.equal);
+    t.is(compare({units: -2, billionths: -1234}, {units: -2, billionths: -123}), Comparison.before);
+    t.is(compare({units: -2, billionths: -1234}, {units: -2, billionths: -12345}), Comparison.after);
 });
