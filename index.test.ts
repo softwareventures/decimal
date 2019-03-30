@@ -1,5 +1,5 @@
 import test from "ava";
-import {add, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, normalize} from "./index";
+import {add, equal, greaterThan, greaterThanOrEqual, lessThan, lessThanOrEqual, normalize} from "./index";
 
 test("normalize", t => {
     t.deepEqual({...normalize({})}, {units: 0, billionths: 0});
@@ -109,4 +109,15 @@ test("greaterThanOrEqual", t => {
     t.true(greaterThanOrEqual({units: -2, billionths: -1234}, {units: -2, billionths: -1234}));
     t.false(greaterThanOrEqual({units: -2, billionths: -1234}, {units: -2, billionths: -123}));
     t.true(greaterThanOrEqual({units: -2, billionths: -1234}, {units: -2, billionths: -12345}));
+});
+
+test("equal", t => {
+    t.true(equal({units: 2, billionths: 1234}, {units: 2, billionths: 1234}));
+    t.false(equal({units: 2, billionths: 1234}, {units: 2, billionths: 123}));
+    t.false(equal({units: 2, billionths: 1234}, {units: 2, billionths: 12345}));
+    t.false(equal({units: 3, billionths: 123}, {units: 2, billionths: 1234}));
+    t.false(equal({units: 3, billionths: 123}, {units: 4, billionths: 12}));
+    t.true(equal({units: -2, billionths: -1234}, {units: -2, billionths: -1234}));
+    t.false(equal({units: -2, billionths: -1234}, {units: -2, billionths: -123}));
+    t.false(equal({units: -2, billionths: -1234}, {units: -2, billionths: -12345}));
 });
