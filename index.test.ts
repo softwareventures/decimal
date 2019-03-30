@@ -1,5 +1,5 @@
 import test from "ava";
-import {add, normalize} from "./index";
+import {add, lessThan, normalize} from "./index";
 
 test("normalize", t => {
     t.deepEqual({...normalize({})}, {units: 0, billionths: 0});
@@ -65,4 +65,15 @@ test("add", t => {
         normalize({units: 2, billionths: 999999997}));
     t.deepEqual(add({units: 7, billionths: 999999876}, {units: -1, billionths: -999999875}),
         normalize({units: 6, billionths: 1}));
+});
+
+test("lessThan", t => {
+    t.false(lessThan({units: 2, billionths: 1234}, {units: 2, billionths: 1234}));
+    t.false(lessThan({units: 2, billionths: 1234}, {units: 2, billionths: 123}));
+    t.true(lessThan({units: 2, billionths: 1234}, {units: 2, billionths: 12345}));
+    t.false(lessThan({units: 3, billionths: 123}, {units: 2, billionths: 1234}));
+    t.true(lessThan({units: 3, billionths: 123}, {units: 4, billionths: 12}));
+    t.false(lessThan({units: -2, billionths: -1234}, {units: -2, billionths: -1234}));
+    t.true(lessThan({units: -2, billionths: -1234}, {units: -2, billionths: -123}));
+    t.false(lessThan({units: -2, billionths: -1234}, {units: -2, billionths: -12345}));
 });
