@@ -1,5 +1,5 @@
 import test from "ava";
-import {normalize} from "./index";
+import {add, normalize} from "./index";
 
 test("normalize", t => {
     const {toString} = normalize({});
@@ -46,4 +46,25 @@ test("toString", t => {
     t.is(normalize({units: 1 / 0}).toString(), "Infinity");
     t.is(normalize({units: -1 / 0}).toString(), "-Infinity");
     t.is(normalize({units: 0 / 0}).toString(), "NaN");
+});
+
+test("add", t => {
+    const {toString} = normalize({});
+    t.deepEqual(add(0, 0), {units: 0, billionths: 0, toString});
+    t.deepEqual(add(0, {units: 1, billionths: 999999999}), {units: 1, billionths: 999999999, toString});
+    t.deepEqual(add({units: 2, billionths: 999999999}, 0), {units: 2, billionths: 999999999, toString});
+    t.deepEqual(add({units: 3, billionths: 999999876}, {units: 1, billionths: 123}),
+        {units: 4, billionths: 999999999, toString});
+    t.deepEqual(add({units: 3, billionths: 999999876}, {units: 1, billionths: 124}),
+        {units: 5, billionths: 0, toString});
+    t.deepEqual(add({units: 3, billionths: 999999876}, {units: 1, billionths: 125}),
+        {units: 5, billionths: 1, toString});
+    t.deepEqual(add({units: 3, billionths: 999999876}, {units: -1, billionths: -124}),
+        {units: 2, billionths: 999999752, toString});
+    t.deepEqual(add({units: 3, billionths: 999999876}, {units: -2}),
+        {units: 1, billionths: 999999876, toString});
+    t.deepEqual(add({units: -2, billionths: -999999879}, {units: 5, billionths: 999999876}),
+        {units: 2, billionths: 999999997, toString});
+    t.deepEqual(add({units: 7, billionths: 999999876}, {units: -1, billionths: -999999875}),
+        {units: 6, billionths: 1, toString});
 });
