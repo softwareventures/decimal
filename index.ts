@@ -95,7 +95,7 @@ export function add(a: DecimalLike, b: DecimalLike): Decimal {
         const bn = normalize(b);
         return normalize({
             units: an.units + bn.units,
-            billionths: an.units + bn.units
+            billionths: an.billionths + bn.billionths
         });
     }
 }
