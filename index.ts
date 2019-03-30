@@ -69,7 +69,11 @@ export function normalize(value: DecimalLike): Decimal {
         billionths = units;
     }
 
-    return {units, billionths, toString};
+    return {
+        units: units | 0,
+        billionths: billionths | 0,
+        toString
+    };
 }
 
 export const zero = Object.freeze(normalize({}));
@@ -77,8 +81,8 @@ export const zero = Object.freeze(normalize({}));
 export function negate(value: DecimalLike): Decimal {
     const {units, billionths} = normalize(value);
     return {
-        units: -units,
-        billionths: -billionths,
+        units: -units | 0,
+        billionths: -billionths | 0,
         toString
     };
 }
@@ -94,8 +98,8 @@ export function add(a: DecimalLike, b: DecimalLike): Decimal {
         const an = normalize(a);
         const bn = normalize(b);
         return normalize({
-            units: an.units + bn.units,
-            billionths: an.billionths + bn.billionths
+            units: (an.units + bn.units) | 0,
+            billionths: (an.billionths + bn.billionths) | 0
         });
     }
 }
