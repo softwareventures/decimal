@@ -1,3 +1,4 @@
+import {Comparison} from "@softwareventures/ordered";
 import test from "ava";
 import {
     add,
@@ -10,7 +11,6 @@ import {
     normalize,
     notEqual
 } from "./index";
-import {Comparison} from "@softwareventures/ordered";
 
 test("normalize", t => {
     t.deepEqual({...normalize({})}, {units: 0, billionths: 0});
