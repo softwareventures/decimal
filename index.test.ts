@@ -9,7 +9,8 @@ import {
     lessThan,
     lessThanOrEqual,
     normalize,
-    notEqual
+    notEqual,
+    subtract
 } from "./index";
 
 test("normalize", t => {
@@ -75,6 +76,30 @@ test("add", t => {
     t.deepEqual(add({units: -2, billionths: -999999879}, {units: 5, billionths: 999999876}),
         normalize({units: 2, billionths: 999999997}));
     t.deepEqual(add({units: 7, billionths: 999999876}, {units: -1, billionths: -999999875}),
+        normalize({units: 6, billionths: 1}));
+});
+
+test("subtract", t => {
+    t.deepEqual(subtract(0, 0), normalize({units: 0, billionths: 0}));
+    t.deepEqual(subtract(0, {units: 1, billionths: 999999999}), normalize({units: -1, billionths: -999999999}));
+    t.deepEqual(subtract({units: 2, billionths: 999999999}, 0), normalize({units: 2, billionths: 999999999}));
+    t.deepEqual(subtract({units: 3, billionths: 999999876}, {units: 1, billionths: 123}),
+        normalize({units: 2, billionths: 999999753}));
+    t.deepEqual(subtract({units: 3, billionths: 123}, {units: 1, billionths: 122}),
+        normalize({units: 2, billionths: 1}));
+    t.deepEqual(subtract({units: 3, billionths: 123}, {units: 1, billionths: 123}),
+        normalize({units: 2, billionths: 0}));
+    t.deepEqual(subtract({units: 3, billionths: 123}, {units: 1, billionths: 124}),
+        normalize({units: 1, billionths: 999999999}));
+    t.deepEqual(subtract({units: 3, billionths: 999999876}, {units: -1, billionths: -124}),
+        normalize({units: 5, billionths: 0}));
+    t.deepEqual(subtract({units: 3, billionths: 999999876}, {units: -2}),
+        normalize({units: 5, billionths: 999999876}));
+    t.deepEqual(subtract({units: -2, billionths: -999999879}, {units: 5, billionths: 999999876}),
+        normalize({units: -8, billionths: -999999755}));
+    t.deepEqual(subtract({units: 2, billionths: 999999876}, {units: 5, billionths: 999999879}),
+        normalize({units: -3, billionths: -3}));
+    t.deepEqual(subtract({units: 7, billionths: 999999876}, {units: 1, billionths: 999999875}),
         normalize({units: 6, billionths: 1}));
 });
 
