@@ -116,9 +116,9 @@ test("multiply", t => {
     t.deepEqual(multiply({billionths: 878673553}, {billionths: 567876876}), normalize({billionths: 498978392}));
 });
 
-test.failing("multiply high precision", t => {
-    t.deepEqual(multiply({units: 35782, billionths: 876567876}, {units: 55676, billionths: 5545678654}),
-        normalize({units: 1992267279, billionths: 826540295}));
+test("multiply high precision", t => {
+    t.deepEqual(multiply({units: 35782, billionths: 876567876}, {units: 55676, billionths: 554567865}),
+        normalize({units: 1992267279, billionths: 826525982}));
 });
 
 test("lessThan", t => {
