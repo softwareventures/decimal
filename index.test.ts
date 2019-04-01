@@ -116,9 +116,25 @@ test("multiply", t => {
     t.deepEqual(multiply({billionths: 878673553}, {billionths: 567876876}), normalize({billionths: 498978392}));
 });
 
-test("multiply high precision", t => {
+test.failing("multiply high precision", t => {
     t.deepEqual(multiply({units: 35782, billionths: 876567876}, {units: 55676, billionths: 554567865}),
         normalize({units: 1992267279, billionths: 826525982}));
+    t.deepEqual(multiply({units: 35783, billionths: 876567876}, {units: 55676, billionths: 554567865}),
+        normalize({units: 1992322956, billionths: 381093847}));
+    t.deepEqual(multiply({units: 35783, billionths: 876567877}, {units: 55676, billionths: 554567865}),
+        normalize({units: 1992322956, billionths: 381149523}));
+    t.deepEqual(multiply({units: 35783, billionths: 876567878}, {units: 55676, billionths: 554567865}),
+        normalize({units: 1992322956, billionths: 381205200}));
+    t.deepEqual(multiply({units: 35783, billionths: 876567879}, {units: 55676, billionths: 554567865}),
+        normalize({units: 1992322956, billionths: 381260876}));
+    t.deepEqual(multiply({units: 35783, billionths: 876567880}, {units: 55676, billionths: 554567865}),
+        normalize({units: 1992322956, billionths: 381316553}));
+    t.deepEqual(multiply({units: 35783, billionths: 876567880}, {units: 55676, billionths: 876567876}),
+        normalize({units: 1992334478, billionths: 789965033}));
+    t.deepEqual(multiply({units: 35783, billionths: 876567881}, {units: 55676, billionths: 876567876}),
+        normalize({units: 1992334478, billionths: 790020710}));
+    t.deepEqual(multiply({units: 35783, billionths: 876567882}, {units: 55676, billionths: 876567876}),
+        normalize({units: 1992334478, billionths: 790076386}));
 });
 
 test("lessThan", t => {
