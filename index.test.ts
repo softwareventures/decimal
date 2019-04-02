@@ -105,6 +105,34 @@ test("subtract", t => {
 });
 
 test("multiply", t => {
+    t.deepEqual(multiply(0, 0), normalize(0));
+    t.deepEqual(multiply(0, {billionths: 0x3557}), normalize(0));
+    t.deepEqual(multiply(0, {billionths: 0xf0e40000}), normalize(0));
+    t.deepEqual(multiply(0, {units: 0x0ac7}), normalize(0));
+    t.deepEqual(multiply(0, {units: 0x5dc70000}), normalize(0));
+    t.deepEqual(multiply({billionths: 0x084c}, 0), normalize(0));
+    t.deepEqual(multiply({billionths: 0xaf22}, {billionths: 0x10a3}), normalize(0));
+    t.deepEqual(multiply({billionths: 0xffff}, {billionths: 0xffff}), normalize({billionths: 4}));
+    t.deepEqual(multiply({billionths: 0x5d59}, {billionths: 0x2aa50000}), normalize({billionths: 17097}));
+    t.deepEqual(multiply({billionths: 0x5d5a}, {billionths: 0x2aa50000}), normalize({billionths: 17098}));
+    t.deepEqual(multiply({billionths: 0x5e9d}, {units: 0x1928}), normalize({billionths: 155983240}));
+    t.deepEqual(multiply({billionths: 0x3351}, {units: 0x620c0000}), normalize({units: 21609, billionths: 755443200}));
+    t.deepEqual(multiply({billionths: 0x38bd0000}, 0), normalize(0));
+    t.deepEqual(multiply({billionths: 0x1e020000}, {billionths: 0x837e}), normalize({billionths: 16947}));
+    t.deepEqual(multiply({billionths: 0x17930000}, {billionths: 0x1e8a0000}), normalize({billionths: 202643558}));
+    t.deepEqual(multiply({billionths: 0x0c170000}, {units: 0x4379}), normalize({units: 3503, billionths: 550300160}));
+    t.deepEqual(multiply({billionths: 0x11220000}, {units: 0x3c490000}),
+        normalize({units: 290722634, billionths: 4430848}));
+    t.deepEqual(multiply({units: 0x6e58}, 0), normalize(0));
+    t.deepEqual(multiply({units: 0x3dc7}, {billionths: 0xcfd7}), normalize({billionths: 0x3227cb21}));
+    t.deepEqual(multiply({units: 0x5685}, {billionths: 0x1bbc0000}), normalize({units: 10306, billionths: 53734400}));
+    t.deepEqual(multiply({units: 0xf72a}, {units: 0x6839}), normalize({units: 0x64a0185a}));
+    t.deepEqual(multiply({units: 0x432c}, {units: 0x4b020000}), normalize({units: 0x6a580000}));
+    t.deepEqual(multiply({units: 0x1ede0000}, {billionths: 0xf78a}), normalize({units: 32817, billionths: 134960640}));
+    t.deepEqual(multiply({units: 0x09360000}, {billionths: 0x30ae0000}),
+        normalize({units: 126209314, billionths: 800009216}));
+    t.deepEqual(multiply({units: 0x36f60000}, {units: 0x11d1}), normalize({units: 0x34d60000}));
+    t.deepEqual(multiply({units: 0x1fc90000}, {units: 0x264e0000}), normalize(0));
     t.deepEqual(multiply(123, 0), normalize({units: 0, billionths: 0}));
     t.deepEqual(multiply(0, {units: 123, billionths: 456789}), normalize({units: 0, billionths: 0}));
     t.deepEqual(multiply({units: -3456, billionths: -8765}, 0), normalize({units: 0, billionths: 0}));

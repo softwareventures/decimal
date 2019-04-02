@@ -1,4 +1,5 @@
 import {Comparator, Comparison} from "@softwareventures/ordered";
+import imul = require("imul");
 
 class StrictDecimal {
     constructor(public readonly units: number, public readonly billionths: number) {
@@ -104,10 +105,42 @@ export function subtract(a: DecimalLike, b: DecimalLike): Decimal {
 export function multiply(a: DecimalLike, b: DecimalLike): Decimal {
     const an = normalize(a);
     const bn = normalize(b);
-    return normalize({
-        units: an.units * bn.units,
-        billionths: an.units * bn.billionths + an.billionths * bn.units + an.billionths * bn.billionths * 1e-9
-    });
+
+    const a1 = (an.units >> 16) & 0xffff;
+    const a2 = (an.units & 0xffff) | ((an.units >> 15) & 0xffff0000);
+    const a3 = (an.billionths >> 16) & 0xffff;
+    const a4 = (an.billionths & 0xffff) | ((an.billionths >> 15) & 0xffff0000);
+    const b1 = (bn.units >> 16) & 0xffff;
+    const b2 = (bn.units & 0xffff) | ((bn.units >> 15) & 0xffff0000);
+    const b3 = (bn.billionths >> 16) & 0xffff;
+    const b4 = (bn.billionths & 0xffff) | ((bn.billionths >> 15) & 0xffff0000);
+
+    const billionths = ((((((((((a1 * b3 * 4294967296) % 1e9
+        + a1 * b4 * 65536) % 1e9
+        + a2 * b3 * 65536) % 1e9
+        + a2 * b4) % 1e9
+        + a3 * b1 * 4294967296) % 1e9
+        + a3 * b2 * 65536) % 1e9
+        + a4 * b1 * 65536) % 1e9
+        + a4 * b2) % 1e9
+        + Math.round((((a3 * b3 * 4.294967296
+            + a3 * b4 * 6.5536e-5) % 1e9
+            + a4 * b3 * 6.5536e-5) % 1e9
+            + a4 * b4 * 1e-9) % 1e9)) % 1e9) | 0;
+
+    const units = (((((((((((((((((((((a1 * b2 * 65536) | 0)
+        + ((a1 * b3 * 4.294967296) | 0)) | 0)
+        + ((a1 * b4 * 6.5536e-5) | 0)) | 0)
+        + ((a2 * b1 * 65536) | 0)) | 0)
+        + imul(a2, b2)) | 0)
+        + ((a2 * b3 * 6.5536e-5) | 0)) | 0)
+        + ((a2 * b4 * 1e-9) | 0)) | 0)
+        + ((a3 * b1 * 4.294967296) | 0)) | 0)
+        + ((a3 * b2 * 6.5536e-5) | 0)) | 0)
+        + ((a4 * b1 * 6.5536e-5) | 0)) | 0)
+        + ((a4 * b2 * 1e-9) | 0)) | 0;
+
+    return new StrictDecimal(units, billionths);
 }
 
 export const compare: Comparator<DecimalLike> = (a, b) => {

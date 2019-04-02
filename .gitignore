@@ -5,4 +5,5 @@ yarn-error.log
 npm-debug.log
 *.js
 *.d.ts
+!/types/*.d.ts
 *.js.map
