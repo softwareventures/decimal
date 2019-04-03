@@ -128,6 +128,7 @@ test("multiply", t => {
     t.deepEqual(multiply({units: 0x5685}, {billionths: 0x1bbc0000}), normalize({units: 10306, billionths: 53734400}));
     t.deepEqual(multiply({units: 0xf72a}, {units: 0x6839}), normalize({units: 0x64a0185a}));
     t.deepEqual(multiply({units: 0x432c}, {units: 0x4b020000}), normalize({units: 0x6a580000}));
+    t.deepEqual(multiply({units: 0x943a0000}, 0), normalize(0));
     t.deepEqual(multiply({units: 0x1ede0000}, {billionths: 0xf78a}), normalize({units: 32817, billionths: 134960640}));
     t.deepEqual(multiply({units: 0x09360000}, {billionths: 0x30ae0000}),
         normalize({units: 126209314, billionths: 800009216}));
