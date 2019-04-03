@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@softwareventures/ordered": "^0.2.0",
+    "@types/imul": "^1.0.0",
     "imul": "^1.0.1"
   }
 }

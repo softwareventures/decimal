@@ -345,6 +345,11 @@
     tslib "^1.9.3"
     tslint-eslint-rules "^5.4.0"
 
+"@types/imul@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/imul/-/imul-1.0.0.tgz#ef8651a1a54ad47ce44f54f6cdb8ffeb912b1043"
+  integrity sha512-GcRYdDviNuBikASKNZtc07Yp2XrZnc20/K6GK0EzVe1VzVr974/WIpkh7vIjjSBqnJ3Ei8KWOHEAppx3Hsu+jg==
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
