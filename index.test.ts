@@ -43,21 +43,21 @@ test("normalize", t => {
 });
 
 test("toString", t => {
-    t.is(normalize({}).toString(), "0");
-    t.is(normalize({units: 1}).toString(), "1");
-    t.is(normalize({billionths: 1}).toString(), "0.000000001");
-    t.is(normalize({billionths: 21}).toString(), "0.000000021");
-    t.is(normalize({billionths: 30}).toString(), "0.00000003");
-    t.is(normalize({units: 1, billionths: 1}).toString(), "1.000000001");
-    t.is(normalize({units: -1}).toString(), "-1");
-    t.is(normalize({billionths: -1}).toString(), "-0.000000001");
-    t.is(normalize({units: 1, billionths: -1}).toString(), "0.999999999");
-    t.is(normalize({units: -1, billionths: 1}).toString(), "-0.999999999");
-    t.is(normalize({units: 1, billionths: 100000000}).toString(), "1.1");
-    t.is(normalize({units: 2, billionths: 340000000}).toString(), "2.34");
-    t.is(normalize({units: 1 / 0}).toString(), "0");
-    t.is(normalize({units: -1 / 0}).toString(), "0");
-    t.is(normalize({units: 0 / 0}).toString(), "0");
+    t.is(normalize({}).toString(), "Decimal 0");
+    t.is(normalize({units: 1}).toString(), "Decimal 1");
+    t.is(normalize({billionths: 1}).toString(), "Decimal 0.000000001");
+    t.is(normalize({billionths: 21}).toString(), "Decimal 0.000000021");
+    t.is(normalize({billionths: 30}).toString(), "Decimal 0.00000003");
+    t.is(normalize({units: 1, billionths: 1}).toString(), "Decimal 1.000000001");
+    t.is(normalize({units: -1}).toString(), "Decimal -1");
+    t.is(normalize({billionths: -1}).toString(), "Decimal -0.000000001");
+    t.is(normalize({units: 1, billionths: -1}).toString(), "Decimal 0.999999999");
+    t.is(normalize({units: -1, billionths: 1}).toString(), "Decimal -0.999999999");
+    t.is(normalize({units: 1, billionths: 100000000}).toString(), "Decimal 1.1");
+    t.is(normalize({units: 2, billionths: 340000000}).toString(), "Decimal 2.34");
+    t.is(normalize({units: 1 / 0}).toString(), "Decimal 0");
+    t.is(normalize({units: -1 / 0}).toString(), "Decimal 0");
+    t.is(normalize({units: 0 / 0}).toString(), "Decimal 0");
 });
 
 test("add", t => {

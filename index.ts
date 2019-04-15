@@ -9,14 +9,14 @@ class StrictDecimal {
 
     public toString(): string {
         if (this.billionths === 0) {
-            return "" + this.units;
+            return "Decimal " + this.units;
         } else if (this.units < 0 || this.billionths < 0) {
-            return "-" + (-this.units) + "."
+            return "Decimal -" + (-this.units) + "."
                 + ("00000000" + (-this.billionths))
                     .substr(-9)
                     .replace(/0*$/, "");
         } else {
-            return "" + this.units + "."
+            return "Decimal " + this.units + "."
                 + ("00000000" + this.billionths)
                     .substr(-9)
                     .replace(/0*$/, "");
