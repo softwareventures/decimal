@@ -27,11 +27,9 @@ class StrictDecimal {
 export interface Decimal {
     readonly units: number;
     readonly billionths: number;
-
-    toString(): string;
 }
 
-export type DecimalLike = number | { units?: number, billionths?: number };
+export type DecimalLike = number | Partial<Decimal>;
 
 export function normalize(value: DecimalLike): Decimal {
     if (value instanceof StrictDecimal) {
