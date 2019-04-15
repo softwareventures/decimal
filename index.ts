@@ -1,5 +1,6 @@
 import {Comparator, Comparison} from "@softwareventures/ordered";
 import imul = require("imul");
+import sign = require("math-sign");
 
 class StrictDecimal {
     constructor(public readonly units: number, public readonly billionths: number) {
@@ -106,16 +107,20 @@ export function multiply(a: DecimalLike, b: DecimalLike): Decimal {
     const an = normalize(a);
     const bn = normalize(b);
 
-    const a1 = (an.units >> 16) & 0xffff;
-    const a2 = (an.units & 0xffff) | ((an.units >> 15) & 0xffff0000);
-    const a3 = (an.billionths >> 16) & 0xffff;
-    const a4 = (an.billionths & 0xffff) | ((an.billionths >> 15) & 0xffff0000);
-    const b1 = (bn.units >> 16) & 0xffff;
-    const b2 = (bn.units & 0xffff) | ((bn.units >> 15) & 0xffff0000);
-    const b3 = (bn.billionths >> 16) & 0xffff;
-    const b4 = (bn.billionths & 0xffff) | ((bn.billionths >> 15) & 0xffff0000);
+    const as = sign(an.units) || sign(an.billionths);
+    const a1 = (imul(as, an.units) >> 16) & 0xffff;
+    const a2 = imul(as, an.units) & 0xffff;
+    const a3 = (imul(as, an.billionths) >> 16) & 0xffff;
+    const a4 = imul(as, an.billionths) & 0xffff;
+    const bs = sign(bn.units) || sign(bn.billionths);
+    const b1 = (imul(bs, bn.units) >> 16) & 0xffff;
+    const b2 = imul(bs, bn.units) & 0xffff;
+    const b3 = (imul(bs, bn.billionths) >> 16) & 0xffff;
+    const b4 = imul(bs, bn.billionths) & 0xffff;
 
-    const billionths = ((((((((((a1 * b3 * 4294967296) % 1e9
+    const s = imul(as, bs);
+
+    const billionths = imul(s, ((((((((((a1 * b3 * 4294967296) % 1e9
         + a1 * b4 * 65536) % 1e9
         + a2 * b3 * 65536) % 1e9
         + a2 * b4) % 1e9
@@ -126,9 +131,9 @@ export function multiply(a: DecimalLike, b: DecimalLike): Decimal {
         + Math.round((((a3 * b3 * 4.294967296
             + a3 * b4 * 6.5536e-5) % 1e9
             + a4 * b3 * 6.5536e-5) % 1e9
-            + a4 * b4 * 1e-9) % 1e9)) % 1e9) | 0;
+            + a4 * b4 * 1e-9) % 1e9)) % 1e9));
 
-    const units = (((((((((((((((((((((a1 * b2 * 65536) | 0)
+    const units = imul(s, (((((((((((((((((((((a1 * b2 * 65536) | 0)
         + ((a1 * b3 * 4.294967296) | 0)) | 0)
         + ((a1 * b4 * 6.5536e-5) | 0)) | 0)
         + ((a2 * b1 * 65536) | 0)) | 0)
@@ -138,7 +143,7 @@ export function multiply(a: DecimalLike, b: DecimalLike): Decimal {
         + ((a3 * b1 * 4.294967296) | 0)) | 0)
         + ((a3 * b2 * 6.5536e-5) | 0)) | 0)
         + ((a4 * b1 * 6.5536e-5) | 0)) | 0)
-        + ((a4 * b2 * 1e-9) | 0)) | 0;
+        + ((a4 * b2 * 1e-9) | 0)));
 
     return new StrictDecimal(units, billionths);
 }
