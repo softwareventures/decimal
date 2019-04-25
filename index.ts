@@ -105,6 +105,14 @@ export function subtract(a: DecimalLike, b: DecimalLike): Decimal {
     return add(a, negate(b));
 }
 
+export function subtractFn(b: DecimalLike): (a: DecimalLike) => Decimal {
+    return a => subtract(a, b);
+}
+
+export function subtractFrom(a: DecimalLike): (b: DecimalLike) => Decimal {
+    return b => subtract(a, b);
+}
+
 export function multiply(a: DecimalLike, b: DecimalLike): Decimal {
     const an = normalize(a);
     const bn = normalize(b);
