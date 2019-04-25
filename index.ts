@@ -185,6 +185,10 @@ export function lessThan(a: DecimalLike, b: DecimalLike): boolean {
     return compare(a, b) < 0;
 }
 
+export function lessThanFn(b: DecimalLike): (a: DecimalLike) => boolean {
+    return a => lessThan(a, b);
+}
+
 export function lessThanOrEqual(a: DecimalLike, b: DecimalLike): boolean {
     return compare(a, b) <= 0;
 }
