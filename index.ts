@@ -201,6 +201,10 @@ export function greaterThan(a: DecimalLike, b: DecimalLike): boolean {
     return compare(a, b) > 0;
 }
 
+export function greaterThanFn(b: DecimalLike): (a: DecimalLike) => boolean {
+    return a => greaterThan(a, b);
+}
+
 export function greaterThanOrEqual(a: DecimalLike, b: DecimalLike): boolean {
     return compare(a, b) >= 0;
 }
