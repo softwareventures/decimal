@@ -85,6 +85,11 @@ export const zero: Decimal = new StrictDecimal(0, 0);
 
 export const epsilon: Decimal = new StrictDecimal(0, 1);
 
+export function isInteger(value: DecimalLike): boolean {
+    const {billionths} = normalize(value);
+    return billionths === 0;
+}
+
 export function negate(value: DecimalLike): Decimal {
     const {units, billionths} = normalize(value);
     return new StrictDecimal(-units | 0, -billionths | 0);
