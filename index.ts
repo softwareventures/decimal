@@ -226,7 +226,10 @@ export function greaterThanOrEqualFn(b: DecimalLike): (a: DecimalLike) => boolea
 }
 
 export function equal(a: DecimalLike, b: DecimalLike): boolean {
-    return compare(a, b) === 0;
+    const an = normalize(a);
+    const bn = normalize(b);
+
+    return an.units === bn.units && an.billionths === bn.billionths;
 }
 
 export function equalFn(b: DecimalLike): (a: DecimalLike) => boolean {
