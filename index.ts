@@ -217,6 +217,10 @@ export function equal(a: DecimalLike, b: DecimalLike): boolean {
     return compare(a, b) === 0;
 }
 
+export function equalFn(b: DecimalLike): (a: DecimalLike) => boolean {
+    return a => equal(a, b);
+}
+
 export function notEqual(a: DecimalLike, b: DecimalLike): boolean {
     return compare(a, b) !== 0;
 }
