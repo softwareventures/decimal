@@ -224,3 +224,7 @@ export function equalFn(b: DecimalLike): (a: DecimalLike) => boolean {
 export function notEqual(a: DecimalLike, b: DecimalLike): boolean {
     return compare(a, b) !== 0;
 }
+
+export function notEqualFn(b: DecimalLike): (a: DecimalLike) => boolean {
+    return a => notEqual(a, b);
+}
