@@ -237,7 +237,10 @@ export function equalFn(b: DecimalLike): (a: DecimalLike) => boolean {
 }
 
 export function notEqual(a: DecimalLike, b: DecimalLike): boolean {
-    return compare(a, b) !== 0;
+    const an = normalize(a);
+    const bn = normalize(b);
+
+    return an.units !== bn.units || an.billionths !== bn.billionths;
 }
 
 export function notEqualFn(b: DecimalLike): (a: DecimalLike) => boolean {
