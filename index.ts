@@ -204,7 +204,10 @@ export function lessThanOrEqualFn(b: DecimalLike): (a: DecimalLike) => boolean {
 }
 
 export function greaterThan(a: DecimalLike, b: DecimalLike): boolean {
-    return compare(a, b) > 0;
+    const an = normalize(a);
+    const bn = normalize(b);
+
+    return an.units > bn.units || (an.units === bn.units && an.billionths > bn.billionths);
 }
 
 export function greaterThanFn(b: DecimalLike): (a: DecimalLike) => boolean {
