@@ -158,6 +158,10 @@ export function multiply(a: DecimalLike, b: DecimalLike): Decimal {
     return new StrictDecimal(units, billionths);
 }
 
+export function multiplyFn(b: DecimalLike): (a: DecimalLike) => Decimal {
+    return a => multiply(a, b);
+}
+
 export const compare: Comparator<DecimalLike> = (a, b) => {
     const an = normalize(a);
     const bn = normalize(b);
