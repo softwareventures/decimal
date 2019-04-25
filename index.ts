@@ -97,6 +97,10 @@ export function add(a: DecimalLike, b: DecimalLike): Decimal {
     });
 }
 
+export function addFn(b: DecimalLike): (a: DecimalLike) => Decimal {
+    return a => add(a, b);
+}
+
 export function subtract(a: DecimalLike, b: DecimalLike): Decimal {
     return add(a, negate(b));
 }
