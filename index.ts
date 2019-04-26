@@ -293,3 +293,14 @@ export function abs(value: DecimalLike): Decimal {
     const {units, billionths} = normalize(value);
     return new StrictDecimal(Math.abs(units), Math.abs(billionths));
 }
+
+export function floor(value: DecimalLike): Decimal {
+    const n = normalize(value);
+    if (n.billionths === 0) {
+        return n;
+    } else if (n.billionths > 0) {
+        return new StrictDecimal(n.units, 0);
+    } else {
+        return new StrictDecimal((n.units - 1) | 0, 0);
+    }
+}
