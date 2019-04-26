@@ -288,3 +288,8 @@ export function notEqual(a: DecimalLike, b: DecimalLike): boolean {
 export function notEqualFn(b: DecimalLike): (a: DecimalLike) => boolean {
     return a => notEqual(a, b);
 }
+
+export function abs(value: DecimalLike): Decimal {
+    const {units, billionths} = normalize(value);
+    return new StrictDecimal(Math.abs(units), Math.abs(billionths));
+}
