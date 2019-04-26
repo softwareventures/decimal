@@ -11,6 +11,7 @@ import {
     lessThan,
     lessThanOrEqual,
     max,
+    min,
     multiply,
     normalize,
     notEqual,
@@ -364,4 +365,23 @@ test("max", t => {
         normalize({units: -2, billionths: -123}));
     t.deepEqual(max({units: -2, billionths: -1234}, {units: -2, billionths: -12345}),
         normalize({units: -2, billionths: -1234}));
+});
+
+test("min", t => {
+    t.deepEqual(min({units: 2, billionths: 1234}, {units: 2, billionths: 1234}),
+        normalize({units: 2, billionths: 1234}));
+    t.deepEqual(min({units: 2, billionths: 1234}, {units: 2, billionths: 123}),
+        normalize({units: 2, billionths: 123}));
+    t.deepEqual(min({units: 2, billionths: 1234}, {units: 2, billionths: 12345}),
+        normalize({units: 2, billionths: 1234}));
+    t.deepEqual(min({units: 3, billionths: 123}, {units: 2, billionths: 1234}),
+        normalize({units: 2, billionths: 1234}));
+    t.deepEqual(min({units: 3, billionths: 123}, {units: 4, billionths: 12}),
+        normalize({units: 3, billionths: 123}));
+    t.deepEqual(min({units: -2, billionths: -1234}, {units: -2, billionths: -1234}),
+        normalize({units: -2, billionths: -1234}));
+    t.deepEqual(min({units: -2, billionths: -1234}, {units: -2, billionths: -123}),
+        normalize({units: -2, billionths: -1234}));
+    t.deepEqual(min({units: -2, billionths: -1234}, {units: -2, billionths: -12345}),
+        normalize({units: -2, billionths: -12345}));
 });

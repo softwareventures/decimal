@@ -338,3 +338,15 @@ export function max(a: DecimalLike, b: DecimalLike): Decimal {
 export function maxFn(b: DecimalLike): (a: DecimalLike) => Decimal {
     return a => max(a, b);
 }
+
+export function min(a: DecimalLike, b: DecimalLike): Decimal {
+    const an = normalize(a);
+    const bn = normalize(b);
+    return lessThanOrEqual(an, bn)
+        ? an
+        : bn;
+}
+
+export function minFn(b: DecimalLike): (a: DecimalLike) => Decimal {
+    return a => min(a, b);
+}
