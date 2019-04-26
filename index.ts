@@ -8,19 +8,7 @@ class StrictDecimal {
     }
 
     public toString(): string {
-        if (this.billionths === 0) {
-            return "Decimal " + this.units;
-        } else if (this.units < 0 || this.billionths < 0) {
-            return "Decimal -" + (-this.units) + "."
-                + ("00000000" + (-this.billionths))
-                    .substr(-9)
-                    .replace(/0*$/, "");
-        } else {
-            return "Decimal " + this.units + "."
-                + ("00000000" + this.billionths)
-                    .substr(-9)
-                    .replace(/0*$/, "");
-        }
+        return "Decimal " + format(this);
     }
 }
 
@@ -88,6 +76,24 @@ export const epsilon: Decimal = new StrictDecimal(0, 1);
 export function isInteger(value: DecimalLike): boolean {
     const {billionths} = normalize(value);
     return billionths === 0;
+}
+
+export function format(value: DecimalLike): string {
+    const {units, billionths} = normalize(value);
+
+    if (billionths === 0) {
+        return "" + units;
+    } else if (units < 0 || billionths < 0) {
+        return "-" + (-units) + "."
+            + ("00000000" + (-billionths))
+                .substr(-9)
+                .replace(/0*$/, "");
+    } else {
+        return "" + units + "."
+            + ("00000000" + billionths)
+                .substr(-9)
+                .replace(/0*$/, "");
+    }
 }
 
 export function negate(value: DecimalLike): Decimal {

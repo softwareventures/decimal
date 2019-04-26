@@ -4,6 +4,7 @@ import {
     add,
     compare,
     equal,
+    format,
     greaterThan,
     greaterThanOrEqual,
     lessThan,
@@ -58,6 +59,24 @@ test("toString", t => {
     t.is(normalize({units: 1 / 0}).toString(), "Decimal 0");
     t.is(normalize({units: -1 / 0}).toString(), "Decimal 0");
     t.is(normalize({units: 0 / 0}).toString(), "Decimal 0");
+});
+
+test("format", t => {
+    t.is(format({}), "0");
+    t.is(format({units: 1}), "1");
+    t.is(format({billionths: 1}), "0.000000001");
+    t.is(format({billionths: 21}), "0.000000021");
+    t.is(format({billionths: 30}), "0.00000003");
+    t.is(format({units: 1, billionths: 1}), "1.000000001");
+    t.is(format({units: -1}), "-1");
+    t.is(format({billionths: -1}), "-0.000000001");
+    t.is(format({units: 1, billionths: -1}), "0.999999999");
+    t.is(format({units: -1, billionths: 1}), "-0.999999999");
+    t.is(format({units: 1, billionths: 100000000}), "1.1");
+    t.is(format({units: 2, billionths: 340000000}), "2.34");
+    t.is(format({units: 1 / 0}), "0");
+    t.is(format({units: -1 / 0}), "0");
+    t.is(format({units: 0 / 0}), "0");
 });
 
 test("add", t => {
