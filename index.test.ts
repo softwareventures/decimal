@@ -10,9 +10,11 @@ import {
     greaterThanOrEqual,
     lessThan,
     lessThanOrEqual,
+    max,
     multiply,
     normalize,
-    notEqual, round,
+    notEqual,
+    round,
     subtract
 } from "./index";
 
@@ -343,4 +345,23 @@ test("round", t => {
     t.deepEqual(round({units: -6225, billionths: -45683}), normalize({units: -6225, billionths: 0}));
     t.deepEqual(round({units: -4539, billionths: -584928927}), normalize({units: -4540, billionths: 0}));
     t.deepEqual(round({units: -45389, billionths: -500000000}), normalize({units: -45389, billionths: 0}));
+});
+
+test("max", t => {
+    t.deepEqual(max({units: 2, billionths: 1234}, {units: 2, billionths: 1234}),
+        normalize({units: 2, billionths: 1234}));
+    t.deepEqual(max({units: 2, billionths: 1234}, {units: 2, billionths: 123}),
+        normalize({units: 2, billionths: 1234}));
+    t.deepEqual(max({units: 2, billionths: 1234}, {units: 2, billionths: 12345}),
+        normalize({units: 2, billionths: 12345}));
+    t.deepEqual(max({units: 3, billionths: 123}, {units: 2, billionths: 1234}),
+        normalize({units: 3, billionths: 123}));
+    t.deepEqual(max({units: 3, billionths: 123}, {units: 4, billionths: 12}),
+        normalize({units: 4, billionths: 12}));
+    t.deepEqual(max({units: -2, billionths: -1234}, {units: -2, billionths: -1234}),
+        normalize({units: -2, billionths: -1234}));
+    t.deepEqual(max({units: -2, billionths: -1234}, {units: -2, billionths: -123}),
+        normalize({units: -2, billionths: -123}));
+    t.deepEqual(max({units: -2, billionths: -1234}, {units: -2, billionths: -12345}),
+        normalize({units: -2, billionths: -1234}));
 });

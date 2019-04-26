@@ -326,3 +326,15 @@ export function round(value: DecimalLike): Decimal {
         return new StrictDecimal(n.units, 0);
     }
 }
+
+export function max(a: DecimalLike, b: DecimalLike): Decimal {
+    const an = normalize(a);
+    const bn = normalize(b);
+    return lessThan(an, bn)
+        ? bn
+        : an;
+}
+
+export function maxFn(b: DecimalLike): (a: DecimalLike) => Decimal {
+    return a => max(a, b);
+}
