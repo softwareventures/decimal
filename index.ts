@@ -96,6 +96,35 @@ export function format(value: DecimalLike): string {
     }
 }
 
+export function formatFixed(value: DecimalLike, fractionDigits = 0): string {
+    const n = normalize(value);
+    fractionDigits = Math.max(Math.min(fractionDigits, 9), 0) | 0;
+
+    if (fractionDigits === 0) {
+        const carry = Number(n.billionths >= 500000000)
+            || -Number(n.billionths < -500000000);
+        return ((n.units + carry) | 0).toFixed(0);
+    } else {
+        const divisor = Math.pow(10, 9 - fractionDigits);
+        const carryPoint = 0.5 * divisor;
+        const modulo = n.billionths % divisor;
+        const carry = (divisor * (Number(modulo >= carryPoint) || -Number(modulo < -carryPoint))) | 0;
+        const {units, billionths} = add(n, {billionths: carry});
+
+        if (units < 0 || billionths < 0) {
+            return "-" + (-units) + "."
+                + ("00000000" + (-billionths)).substr(-9, fractionDigits);
+        } else {
+            return "" + units + "."
+                + ("00000000" + billionths).substr(-9, fractionDigits);
+        }
+    }
+}
+
+export function formatFixedFn(fractionDigits = 0): (value: DecimalLike) => string {
+    return value => formatFixed(value, fractionDigits);
+}
+
 export function negate(value: DecimalLike): Decimal {
     const {units, billionths} = normalize(value);
     return new StrictDecimal(-units | 0, -billionths | 0);

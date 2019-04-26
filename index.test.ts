@@ -5,6 +5,7 @@ import {
     compare,
     equal,
     format,
+    formatFixed,
     greaterThan,
     greaterThanOrEqual,
     lessThan,
@@ -77,6 +78,49 @@ test("format", t => {
     t.is(format({units: 1 / 0}), "0");
     t.is(format({units: -1 / 0}), "0");
     t.is(format({units: 0 / 0}), "0");
+});
+
+test("formatFixed", t => {
+    t.is(formatFixed({}), "0");
+    t.is(formatFixed({units: 1}, 9), "1.000000000");
+    t.is(formatFixed({units: 1}, 10), "1.000000000");
+    t.is(formatFixed({units: 1}, -1), "1");
+    t.is(formatFixed({units: 1}, 2), "1.00");
+    t.is(formatFixed({billionths: 1}, 9), "0.000000001");
+    t.is(formatFixed({billionths: 1}, 8), "0.00000000");
+    t.is(formatFixed({billionths: 21}, 9), "0.000000021");
+    t.is(formatFixed({billionths: 21}, 8), "0.00000002");
+    t.is(formatFixed({billionths: 21}, 7), "0.0000000");
+    t.is(formatFixed({billionths: 30}, 9), "0.000000030");
+    t.is(formatFixed({billionths: 30}, 8), "0.00000003");
+    t.is(formatFixed({billionths: 30}, 7), "0.0000000");
+    t.is(formatFixed({billionths: 50}, 9), "0.000000050");
+    t.is(formatFixed({billionths: 50}, 8), "0.00000005");
+    t.is(formatFixed({billionths: 50}, 7), "0.0000001");
+    t.is(formatFixed({units: 1, billionths: 1}, 9), "1.000000001");
+    t.is(formatFixed({units: 1, billionths: 1}, 8), "1.00000000");
+    t.is(formatFixed({units: 1, billionths: 1}), "1");
+    t.is(formatFixed({units: -1}, 2), "-1.00");
+    t.is(formatFixed({units: -1}), "-1");
+    t.is(formatFixed({billionths: -1}, 9), "-0.000000001");
+    t.is(formatFixed({billionths: -1}, 2), "-0.00");
+    t.is(formatFixed({units: 1, billionths: -1}, 9), "0.999999999");
+    t.is(formatFixed({units: 1, billionths: -1}, 8), "1.00000000");
+    t.is(formatFixed({units: 1, billionths: -1}, 2), "1.00");
+    t.is(formatFixed({units: -1, billionths: 1}, 9), "-0.999999999");
+    t.is(formatFixed({units: -1, billionths: 1}, 8), "-1.00000000");
+    t.is(formatFixed({units: -1, billionths: 1}, 2), "-1.00");
+    t.is(formatFixed({units: -1, billionths: 1}), "-1");
+    t.is(formatFixed({units: 1, billionths: 100000000}, 2), "1.10");
+    t.is(formatFixed({units: 1, billionths: 100000000}, 1), "1.1");
+    t.is(formatFixed({units: 1, billionths: 100000000}), "1");
+    t.is(formatFixed({units: 2, billionths: 340000000}, 4), "2.3400");
+    t.is(formatFixed({units: 2, billionths: 340000000}, 2), "2.34");
+    t.is(formatFixed({units: 2, billionths: 340000000}, 1), "2.3");
+    t.is(formatFixed({units: 2, billionths: 340000000}), "2");
+    t.is(formatFixed({units: 1 / 0}), "0");
+    t.is(formatFixed({units: -1 / 0}), "0");
+    t.is(formatFixed({units: 0 / 0}), "0");
 });
 
 test("add", t => {
