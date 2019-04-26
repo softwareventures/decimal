@@ -12,7 +12,7 @@ import {
     lessThanOrEqual,
     multiply,
     normalize,
-    notEqual,
+    notEqual, round,
     subtract
 } from "./index";
 
@@ -332,4 +332,15 @@ test("compare", t => {
     t.is(compare({units: -2, billionths: -1234}, {units: -2, billionths: -1234}), Comparison.equal);
     t.is(compare({units: -2, billionths: -1234}, {units: -2, billionths: -123}), Comparison.before);
     t.is(compare({units: -2, billionths: -1234}, {units: -2, billionths: -12345}), Comparison.after);
+});
+
+test("round", t => {
+    t.deepEqual(round({units: 0, billionths: 343}), normalize({units: 0, billionths: 0}));
+    t.deepEqual(round({units: 6225, billionths: 45683}), normalize({units: 6225, billionths: 0}));
+    t.deepEqual(round({units: 4539, billionths: 584928927}), normalize({units: 4540, billionths: 0}));
+    t.deepEqual(round({units: 45389, billionths: 500000000}), normalize({units: 45390, billionths: 0}));
+    t.deepEqual(round({units: -0, billionths: -343}), normalize({units: 0, billionths: 0}));
+    t.deepEqual(round({units: -6225, billionths: -45683}), normalize({units: -6225, billionths: 0}));
+    t.deepEqual(round({units: -4539, billionths: -584928927}), normalize({units: -4540, billionths: 0}));
+    t.deepEqual(round({units: -45389, billionths: -500000000}), normalize({units: -45389, billionths: 0}));
 });

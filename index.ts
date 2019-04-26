@@ -315,3 +315,14 @@ export function ceil(value: DecimalLike): Decimal {
         return new StrictDecimal(n.units, 0);
     }
 }
+
+export function round(value: DecimalLike): Decimal {
+    const n = normalize(value);
+    if (n.billionths >= 500000000) {
+        return new StrictDecimal((n.units + 1) | 0, 0);
+    } else if (n.billionths < -500000000) {
+        return new StrictDecimal((n.units - 1) | 0, 0);
+    } else {
+        return new StrictDecimal(n.units, 0);
+    }
+}
