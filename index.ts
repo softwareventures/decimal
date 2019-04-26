@@ -294,6 +294,11 @@ export function abs(value: DecimalLike): Decimal {
     return new StrictDecimal(Math.abs(units), Math.abs(billionths));
 }
 
+export function trunc(value: DecimalLike): Decimal {
+    const {units} = normalize(value);
+    return new StrictDecimal(units, 0);
+}
+
 export function floor(value: DecimalLike): Decimal {
     const n = normalize(value);
     if (n.billionths === 0) {
