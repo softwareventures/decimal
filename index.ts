@@ -209,9 +209,10 @@ export function multiply(a: DecimalLike, b: DecimalLike): Decimal {
         let sum = 0;
         let carry = 0;
         for (let i = 0; i < values.length; ++i) {
-            const valueCarry = (values[i] / 1e9) >>> 0;
-            const value = (values[i] - imul(valueCarry, 1e9)) >>> 0;
-            sum = (sum + value) >>> 0;
+            const value = values[i] >>> 0;
+            const valueCarry = (value / 1e9) >>> 0;
+            const valueMod = (value - imul(valueCarry, 1e9)) >>> 0;
+            sum = (sum + valueMod) >>> 0;
             const sumCarry = (sum / 1e9) >>> 0;
             sum -= imul(sumCarry, 1e9);
             carry += valueCarry + sumCarry;
