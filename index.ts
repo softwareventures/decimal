@@ -450,3 +450,63 @@ export function min(a: DecimalLike, b: DecimalLike): Decimal {
 export function minFn(b: DecimalLike): (a: DecimalLike) => Decimal {
     return a => min(a, b);
 }
+
+/** @internal */
+export function toBytes(decimal: DecimalLike): [
+    number, number, number, number, number, number, number, number, number
+] {
+    const {units, billionths} = normalize(decimal);
+    const s = sign(units) || sign(billionths);
+
+    const uUnits = imul(s, units);
+    const uBillionths = imul(s, billionths);
+
+    const ua = uUnits >>> 24;
+    const ub = (uUnits >>> 16) & 0xff;
+    const uc = (uUnits >>> 8) & 0xff;
+    const ud = uUnits & 0xff;
+
+    const ba = uBillionths >>> 24;
+    const bb = (uBillionths >>> 16) & 0xff;
+    const bc = (uBillionths >>> 8) & 0xff;
+    const bd = uBillionths & 0xff;
+
+    const rh = bd;
+    const rge = uadd(bc, umul(ud, 0xca));
+    const rg = rge & 0xff;
+    const rfc = rge >>> 8;
+    const rfe = usum(bb, umul(ud, 0x9a), umul(uc, 0xca), rfc);
+    const rf = rfe & 0xff;
+    const rec = rfe >>> 8;
+    const ree = usum(ba, umul(ud, 0x3b), umul(uc, 0x9a), umul(ub, 0xca), rec);
+    const re = ree & 0xff;
+    const rdc = ree >>> 8;
+    const rde = usum(umul(uc, 0x3b), umul(ub, 0x9a), umul(ua, 0xca), rdc);
+    const rd = rde & 0xff;
+    const rcc = rde >>> 8;
+    const rce = usum(umul(ub, 0x3b), umul(ua, 0x9a), rcc);
+    const rc = rce & 0xff;
+    const rbc = rce >>> 8;
+    const rbe = uadd(umul(ua, 0x3b), rbc);
+    const rb = rbe & 0xff;
+    const rac = rbe >>> 8;
+    const ra = rac & 0xff;
+
+    return [s, ra, rb, rc, rd, re, rf, rg, rh];
+}
+
+function uadd(a: number, b: number): number {
+    return (a + b) >>> 0;
+}
+
+function usum(...values: number[]): number {
+    let sum = 0 >>> 0;
+    for (let i = 0; i < values.length; ++i) {
+        sum = (sum + values[i]) >>> 0;
+    }
+    return sum;
+}
+
+function umul(a: number, b: number): number {
+    return imul(a >>> 0, b >>> 0) >>> 0;
+}

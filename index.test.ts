@@ -16,8 +16,9 @@ import {
     normalize,
     notEqual,
     round,
-    subtract
-} from "./index";
+    subtract,
+    toBytes
+} from ".";
 
 test("normalize", t => {
     t.deepEqual({...normalize({})}, {units: 0, billionths: 0});
@@ -396,4 +397,44 @@ test("min", t => {
         normalize({units: -2, billionths: -1234}));
     t.deepEqual(min({units: -2, billionths: -1234}, {units: -2, billionths: -12345}),
         normalize({units: -2, billionths: -12345}));
+});
+
+test("toBytes", t => {
+    t.deepEqual(toBytes({}), [0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    t.deepEqual(toBytes({billionths: 1}), [1, 0, 0, 0, 0, 0, 0, 0, 1]);
+    t.deepEqual(toBytes({billionths: 0xff}), [1, 0, 0, 0, 0, 0, 0, 0, 0xff]);
+    t.deepEqual(toBytes({billionths: 0x1ff}), [1, 0, 0, 0, 0, 0, 0, 0x1, 0xff]);
+    t.deepEqual(toBytes({billionths: 0x19abcdef}), [1, 0, 0, 0, 0, 0x19, 0xab, 0xcd, 0xef]);
+    t.deepEqual(toBytes({billionths: -1}), [-1, 0, 0, 0, 0, 0, 0, 0, 1]);
+    t.deepEqual(toBytes({billionths: -0xff}), [-1, 0, 0, 0, 0, 0, 0, 0, 0xff]);
+    t.deepEqual(toBytes({billionths: -0x1ff}), [-1, 0, 0, 0, 0, 0, 0, 0x1, 0xff]);
+    t.deepEqual(toBytes({billionths: -0x19abcdef}), [-1, 0, 0, 0, 0, 0x19, 0xab, 0xcd, 0xef]);
+    t.deepEqual(toBytes({units: 1}), [1, 0, 0, 0, 0, 0x3b, 0x9a, 0xca, 0x00]);
+    t.deepEqual(toBytes({units: 1, billionths: 1}), [1, 0, 0, 0, 0, 0x3b, 0x9a, 0xca, 0x01]);
+    t.deepEqual(toBytes({units: 1, billionths: 0xff}), [1, 0, 0, 0, 0, 0x3b, 0x9a, 0xca, 0xff]);
+    t.deepEqual(toBytes({units: 1, billionths: 0x3600}), [1, 0, 0, 0, 0, 0x3b, 0x9b, 0x00, 0x00]);
+    t.deepEqual(toBytes({units: -1}), [-1, 0, 0, 0, 0, 0x3b, 0x9a, 0xca, 0x00]);
+    t.deepEqual(toBytes({units: -1, billionths: -1}), [-1, 0, 0, 0, 0, 0x3b, 0x9a, 0xca, 0x01]);
+    t.deepEqual(toBytes({units: -1, billionths: -0xff}), [-1, 0, 0, 0, 0, 0x3b, 0x9a, 0xca, 0xff]);
+    t.deepEqual(toBytes({units: -1, billionths: -0x3600}), [-1, 0, 0, 0, 0, 0x3b, 0x9b, 0x00, 0x00]);
+    t.deepEqual(toBytes({units: 0x7fffffff, billionths: 999999999}),
+        [1, 0x1d, 0xcd, 0x64, 0xff, 0xff, 0xff, 0xff, 0xff]);
+    t.deepEqual(toBytes({units: -0x7fffffff, billionths: -999999999}),
+        [-1, 0x1d, 0xcd, 0x64, 0xff, 0xff, 0xff, 0xff, 0xff]);
+    t.deepEqual(toBytes({units: 140669921, billionths: 519802110}),
+        [1, 0x1, 0xf3, 0xc2, 0x8c, 0x5e, 0xc5, 0x16, 0xfe]);
+    t.deepEqual(toBytes({units: -140669921, billionths: -519802110}),
+        [-1, 0x1, 0xf3, 0xc2, 0x8c, 0x5e, 0xc5, 0x16, 0xfe]);
+    t.deepEqual(toBytes({units: 593040895, billionths: 461508546}),
+        [1, 0x8, 0x3a, 0xe7, 0x8d, 0x67, 0x43, 0x45, 0xc2]);
+    t.deepEqual(toBytes({units: -593040895, billionths: -461508546}),
+        [-1, 0x8, 0x3a, 0xe7, 0x8d, 0x67, 0x43, 0x45, 0xc2]);
+    t.deepEqual(toBytes({units: 766542927, billionths: 131466229}),
+        [1, 0xa, 0xa3, 0x4e, 0xbb, 0x1c, 0xc2, 0x59, 0xf5]);
+    t.deepEqual(toBytes({units: -766542927, billionths: -131466229}),
+        [-1, 0xa, 0xa3, 0x4e, 0xbb, 0x1c, 0xc2, 0x59, 0xf5]);
+    t.deepEqual(toBytes({units: 568361657, billionths: 784795990}),
+        [1, 0x7, 0xe3, 0x39, 0xea, 0x9c, 0x37, 0x03, 0x56]);
+    t.deepEqual(toBytes({units: -568361657, billionths: -784795990}),
+        [-1, 0x7, 0xe3, 0x39, 0xea, 0x9c, 0x37, 0x03, 0x56]);
 });
