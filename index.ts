@@ -495,6 +495,32 @@ export function toBytes(decimal: DecimalLike): [
     return [s, ra, rb, rc, rd, re, rf, rg, rh];
 }
 
+/** @internal */
+export function fromBytes(bytes: [number, number, number, number, number, number, number, number, number]): Decimal {
+    const [s, a, b, c, d, e, f, g, h] = bytes;
+
+    const uee = usum(umul(e, 4), umul(d, 0x4b), umul(c, 0x82), umul(b, 0xfa), umul(a, 0x09));
+    const udc = uee >>> 8;
+    const ude = usum(umul(d, 4), umul(c, 0x4b), umul(b, 0x82), umul(a, 0xfa), udc);
+    const ud = ude & 0xff;
+    const ucc = ude >>> 8;
+    const uce = usum(umul(c, 4), umul(b, 0x4b), umul(a, 0x82), ucc);
+    const uc = uce & 0xff;
+    const ubc = uce >>> 8;
+    const ube = usum(umul(b, 4), umul(a, 0x4b), ubc);
+    const ub = ube & 0xff;
+    const uac = ube >>> 8;
+    const ua = usum(umul(a, 4), uac) & 0xff;
+
+    const uUnits = usum(ua << 24, ub << 16, uc << 8, ud);
+    const uBillionths = usub(usum(e << 24, f << 16, g << 8, h), umul(uUnits, 1e9));
+
+    const units = imul(s, uadd(uUnits, udiv(uBillionths, 1e9)));
+    const billionths = imul(s, uBillionths % 1e9);
+
+    return new StrictDecimal(units, billionths);
+}
+
 function uadd(a: number, b: number): number {
     return (a + b) >>> 0;
 }
@@ -507,6 +533,14 @@ function usum(...values: number[]): number {
     return sum;
 }
 
+function usub(a: number, b: number): number {
+    return (a - b) >>> 0;
+}
+
 function umul(a: number, b: number): number {
     return imul(a >>> 0, b >>> 0) >>> 0;
+}
+
+function udiv(a: number, b: number): number {
+    return ((a >>> 0) / (b >>> 0)) >>> 0;
 }

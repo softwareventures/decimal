@@ -6,6 +6,7 @@ import {
     equal,
     format,
     formatFixed,
+    fromBytes,
     greaterThan,
     greaterThanOrEqual,
     lessThan,
@@ -437,4 +438,44 @@ test("toBytes", t => {
         [1, 0x7, 0xe3, 0x39, 0xea, 0x9c, 0x37, 0x03, 0x56]);
     t.deepEqual(toBytes({units: -568361657, billionths: -784795990}),
         [-1, 0x7, 0xe3, 0x39, 0xea, 0x9c, 0x37, 0x03, 0x56]);
+});
+
+test("fromBytes", t => {
+    t.deepEqual(fromBytes([0, 0, 0, 0, 0, 0, 0, 0, 0]), normalize({}));
+    t.deepEqual(fromBytes([1, 0, 0, 0, 0, 0, 0, 0, 1]), normalize({billionths: 1}));
+    t.deepEqual(fromBytes([1, 0, 0, 0, 0, 0, 0, 0, 0xff]), normalize({billionths: 0xff}));
+    t.deepEqual(fromBytes([1, 0, 0, 0, 0, 0, 0, 0x1, 0xff]), normalize({billionths: 0x1ff}));
+    t.deepEqual(fromBytes([1, 0, 0, 0, 0, 0x19, 0xab, 0xcd, 0xef]), normalize({billionths: 0x19abcdef}));
+    t.deepEqual(fromBytes([-1, 0, 0, 0, 0, 0, 0, 0, 1]), normalize({billionths: -1}));
+    t.deepEqual(fromBytes([-1, 0, 0, 0, 0, 0, 0, 0, 0xff]), normalize({billionths: -0xff}));
+    t.deepEqual(fromBytes([-1, 0, 0, 0, 0, 0, 0, 0x1, 0xff]), normalize({billionths: -0x1ff}));
+    t.deepEqual(fromBytes([-1, 0, 0, 0, 0, 0x19, 0xab, 0xcd, 0xef]), normalize({billionths: -0x19abcdef}));
+    t.deepEqual(fromBytes([1, 0, 0, 0, 0, 0x3b, 0x9a, 0xca, 0x00]), normalize({units: 1}));
+    t.deepEqual(fromBytes([1, 0, 0, 0, 0, 0x3b, 0x9a, 0xca, 0x01]), normalize({units: 1, billionths: 1}));
+    t.deepEqual(fromBytes([1, 0, 0, 0, 0, 0x3b, 0x9a, 0xca, 0xff]), normalize({units: 1, billionths: 0xff}));
+    t.deepEqual(fromBytes([1, 0, 0, 0, 0, 0x3b, 0x9b, 0x00, 0x00]), normalize({units: 1, billionths: 0x3600}));
+    t.deepEqual(fromBytes([-1, 0, 0, 0, 0, 0x3b, 0x9a, 0xca, 0x00]), normalize({units: -1}));
+    t.deepEqual(fromBytes([-1, 0, 0, 0, 0, 0x3b, 0x9a, 0xca, 0x01]), normalize({units: -1, billionths: -1}));
+    t.deepEqual(fromBytes([-1, 0, 0, 0, 0, 0x3b, 0x9a, 0xca, 0xff]), normalize({units: -1, billionths: -0xff}));
+    t.deepEqual(fromBytes([-1, 0, 0, 0, 0, 0x3b, 0x9b, 0x00, 0x00]), normalize({units: -1, billionths: -0x3600}));
+    t.deepEqual(fromBytes([1, 0x1d, 0xcd, 0x64, 0xff, 0xff, 0xff, 0xff, 0xff]),
+        normalize({units: 0x7fffffff, billionths: 999999999}));
+    t.deepEqual(fromBytes([-1, 0x1d, 0xcd, 0x64, 0xff, 0xff, 0xff, 0xff, 0xff]),
+        normalize({units: -0x7fffffff, billionths: -999999999}));
+    t.deepEqual(fromBytes([1, 0x1, 0xf3, 0xc2, 0x8c, 0x5e, 0xc5, 0x16, 0xfe]),
+        normalize({units: 140669921, billionths: 519802110}));
+    t.deepEqual(fromBytes([-1, 0x1, 0xf3, 0xc2, 0x8c, 0x5e, 0xc5, 0x16, 0xfe]),
+        normalize({units: -140669921, billionths: -519802110}));
+    t.deepEqual(fromBytes([1, 0x8, 0x3a, 0xe7, 0x8d, 0x67, 0x43, 0x45, 0xc2]),
+        normalize({units: 593040895, billionths: 461508546}));
+    t.deepEqual(fromBytes([-1, 0x8, 0x3a, 0xe7, 0x8d, 0x67, 0x43, 0x45, 0xc2]),
+        normalize({units: -593040895, billionths: -461508546}));
+    t.deepEqual(fromBytes([1, 0xa, 0xa3, 0x4e, 0xbb, 0x1c, 0xc2, 0x59, 0xf5]),
+        normalize({units: 766542927, billionths: 131466229}));
+    t.deepEqual(fromBytes([-1, 0xa, 0xa3, 0x4e, 0xbb, 0x1c, 0xc2, 0x59, 0xf5]),
+        normalize({units: -766542927, billionths: -131466229}));
+    t.deepEqual(fromBytes([1, 0x7, 0xe3, 0x39, 0xea, 0x9c, 0x37, 0x03, 0x56]),
+        normalize({units: 568361657, billionths: 784795990}));
+    t.deepEqual(fromBytes([-1, 0x7, 0xe3, 0x39, 0xea, 0x9c, 0x37, 0x03, 0x56]),
+        normalize({units: -568361657, billionths: -784795990}));
 });
