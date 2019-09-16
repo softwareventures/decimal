@@ -451,10 +451,10 @@ export function minFn(b: DecimalLike): (a: DecimalLike) => Decimal {
     return a => min(a, b);
 }
 
+type DecimalBytes = [number, number, number, number, number, number, number, number, number];
+
 /** @internal */
-export function toBytes(decimal: DecimalLike): [
-    number, number, number, number, number, number, number, number, number
-] {
+export function toBytes(decimal: DecimalLike): DecimalBytes {
     const {units, billionths} = normalize(decimal);
     const s = sign(units) || sign(billionths);
 
@@ -496,7 +496,7 @@ export function toBytes(decimal: DecimalLike): [
 }
 
 /** @internal */
-export function fromBytes(bytes: [number, number, number, number, number, number, number, number, number]): Decimal {
+export function fromBytes(bytes: DecimalBytes): Decimal {
     const [s, a, b, c, d, e, f, g, h] = bytes;
 
     const uee = usum(umul(e, 4), umul(d, 0x4b), umul(c, 0x82), umul(b, 0xfa), umul(a, 0x09));
@@ -519,6 +519,65 @@ export function fromBytes(bytes: [number, number, number, number, number, number
     const billionths = imul(s, uBillionths % 1e9);
 
     return new StrictDecimal(units, billionths);
+}
+
+type ExtendedBytes = [number, number, number, number, number, number, number,
+    number, number, number, number, number, number, number];
+
+/** @internal */
+export function multiplyBytesExtended(a: DecimalBytes, b: DecimalBytes): ExtendedBytes {
+    const [as, a1, a2, a3, a4, a5, a6, a7, a8] = a;
+    const [bs, b1, b2, b3, b4, b5, b6, b7, b8] = b;
+
+    const s = imul(as, bs);
+
+    const c16e = umul(a8, b8);
+    const c15c = c16e >>> 8;
+    const c15e = usum(umul(a7, b8), umul(a8, b7), c15c);
+    const c14c = c15e >>> 8;
+    const c14e = usum(umul(a6, b8), umul(a7, b7), umul(a8, b6), c14c);
+    const c13c = c14e >>> 8;
+    const c13e = usum(umul(a5, b8), umul(a6, b7), umul(a7, b6), umul(a8, b5), c13c);
+    const c13 = c13e & 0xff;
+    const c12c = c13e >>> 8;
+    const c12e = usum(umul(a4, b8), umul(a5, b7), umul(a6, b6), umul(a7, b5), umul(a8, b4), c12c);
+    const c12 = c12e & 0xff;
+    const c11c = c12e >>> 8;
+    const c11e = usum(umul(a3, b8), umul(a4, b7), umul(a5, b6), umul(a6, b5), umul(a7, b4), umul(a8, b3), c11c);
+    const c11 = c11e & 0xff;
+    const c10c = c11e >>> 8;
+    const c10e = usum(umul(a2, b8), umul(a3, b7), umul(a4, b6), umul(a5, b5), umul(a6, b4), umul(a7, b3),
+        umul(a8, b2), c10c);
+    const c10 = c10e & 0xff;
+    const c9c = c10e >>> 8;
+    const c9e = usum(umul(a1, b8), umul(a2, b7), umul(a3, b6), umul(a4, b5), umul(a5, b4), umul(a6, b3),
+        umul(a7, b2), umul(a8, b1), c9c);
+    const c9 = c9e & 0xff;
+    const c8c = c9e >>> 8;
+    const c8e = usum(umul(a1, b7), umul(a2, b6), umul(a3, b5), umul(a4, b4), umul(a5, b3), umul(a6, b2),
+        umul(a7, b1), c8c);
+    const c8 = c8e & 0xff;
+    const c7c = c8e >>> 8;
+    const c7e = usum(umul(a1, b6), umul(a2, b5), umul(a3, b4), umul(a4, b3), umul(a5, b2), umul(a6, b1), c7c);
+    const c7 = c7e & 0xff;
+    const c6c = c7e >>> 8;
+    const c6e = usum(umul(a1, b5), umul(a2, b4), umul(a3, b3), umul(a4, b2), umul(a5, b1), c6c);
+    const c6 = c6e & 0xff;
+    const c5c = c6e >>> 8;
+    const c5e = usum(umul(a1, b4), umul(a2, b3), umul(a3, b2), umul(a4, b1), c5c);
+    const c5 = c5e & 0xff;
+    const c4c = c5e >>> 8;
+    const c4e = usum(umul(a1, b3), umul(a2, b2), umul(a3, b1), c4c);
+    const c4 = c4e & 0xff;
+    const c3c = c4e >>> 8;
+    const c3e = usum(umul(a1, b2), umul(a2, b1), c3c);
+    const c3 = c3e & 0xff;
+    const c2c = c3e >>> 8;
+    const c2e = usum(umul(a1, b1), c2c);
+    const c2 = c2e & 0xff;
+    const c1 = (c2e >>> 8) & 0xff;
+
+    return [s, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13];
 }
 
 function uadd(a: number, b: number): number {
