@@ -481,7 +481,7 @@ test("fromBytes", t => {
         normalize({units: -568361657, billionths: -784795990}));
 });
 
-test.only("multiplyBytesExtended", t => {
+test("multiplyBytesExtended", t => {
     t.deepEqual(multiplyBytesExtended(
         [0, 0, 0, 0, 0, 0, 0, 0, 0],
         [1, 0x90, 0x68, 0x8e, 0x25, 0x71, 0x28, 0x13, 0xeb]
