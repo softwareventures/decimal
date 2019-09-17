@@ -172,82 +172,79 @@ test("subtract", t => {
         normalize({units: 6, billionths: 1}));
 });
 
-test("multiply", t => {
+test.only("multiply", t => {
     t.deepEqual(multiply(0, 0), normalize(0));
-    t.deepEqual(multiply(0, {billionths: 0x3557}), normalize(0));
-    t.deepEqual(multiply(0, {billionths: 0xf0e40000}), normalize(0));
-    t.deepEqual(multiply(0, {units: 0x0ac7}), normalize(0));
-    t.deepEqual(multiply(0, {units: 0x5dc70000}), normalize(0));
-    t.deepEqual(multiply({billionths: 0x084c}, 0), normalize(0));
-    t.deepEqual(multiply({billionths: 0xaf22}, {billionths: 0x10a3}), normalize(0));
-    t.deepEqual(multiply({billionths: 0xffff}, {billionths: 0xffff}), normalize({billionths: 4}));
-    t.deepEqual(multiply({billionths: 0x5d59}, {billionths: 0x2aa50000}), normalize({billionths: 17097}));
-    t.deepEqual(multiply({billionths: 0x5d5a}, {billionths: 0x2aa50000}), normalize({billionths: 17098}));
-    t.deepEqual(multiply({billionths: 0x5e9d}, {units: 0x1928}), normalize({billionths: 155983240}));
-    t.deepEqual(multiply({billionths: 0x3351}, {units: 0x620c0000}), normalize({units: 21609, billionths: 755443200}));
-    t.deepEqual(multiply({billionths: 0x38bd0000}, 0), normalize(0));
-    t.deepEqual(multiply({billionths: 0x1e020000}, {billionths: 0x837e}), normalize({billionths: 16947}));
-    t.deepEqual(multiply({billionths: 0x17930000}, {billionths: 0x1e8a0000}), normalize({billionths: 202643558}));
-    t.deepEqual(multiply({billionths: 0x0c170000}, {units: 0x4379}), normalize({units: 3503, billionths: 550300160}));
-    t.deepEqual(multiply({billionths: 0x11220000}, {units: 0x3c490000}),
+    t.deepEqual(multiply(0, {billionths: 13655}), normalize(0));
+    t.deepEqual(multiply(0, {billionths: 4041474048}), normalize(0));
+    t.deepEqual(multiply(0, {units: 2759}), normalize(0));
+    t.deepEqual(multiply(0, {units: 1573322752}), normalize(0));
+    t.deepEqual(multiply({billionths: 2124}, 0), normalize(0));
+    t.deepEqual(multiply({billionths: 44834}, {billionths: 4259}), normalize(0));
+    t.deepEqual(multiply({billionths: 65535}, {billionths: 65535}), normalize({billionths: 4}));
+    t.deepEqual(multiply({billionths: 23897}, {billionths: 715456512}), normalize({billionths: 17097}));
+    t.deepEqual(multiply({billionths: 23898}, {billionths: 715456512}), normalize({billionths: 17098}));
+    t.deepEqual(multiply({billionths: 24221}, {units: 6440}), normalize({billionths: 155983240}));
+    t.deepEqual(multiply({billionths: 13137}, {units: 644953600}), normalize({units: 8472, billionths: 755443200}));
+    t.deepEqual(multiply({billionths: 951910400}, 0), normalize(0));
+    t.deepEqual(multiply({billionths: 503447552}, {billionths: 33662}), normalize({billionths: 16947}));
+    t.deepEqual(multiply({billionths: 395509760}, {billionths: 512360448}), normalize({billionths: 202643558}));
+    t.deepEqual(multiply({billionths: 202833920}, {units: 17273}), normalize({units: 3503, billionths: 550300160}));
+    t.deepEqual(multiply({billionths: 287440896}, {units: 1011417088}),
         normalize({units: 290722634, billionths: 4430848}));
-    t.deepEqual(multiply({units: 0x6e58}, 0), normalize(0));
-    t.deepEqual(multiply({units: 0x3dc7}, {billionths: 0xcfd7}), normalize({billionths: 0x3227cb21}));
-    t.deepEqual(multiply({units: 0x5685}, {billionths: 0x1bbc0000}), normalize({units: 10306, billionths: 53734400}));
-    t.deepEqual(multiply({units: 0xf72a}, {units: 0x6839}), normalize({units: 0x64a0185a}));
-    t.deepEqual(multiply({units: 0x432c}, {units: 0x4b020000}), normalize({units: 0x6a580000}));
-    t.deepEqual(multiply({units: 0x943a0000}, 0), normalize(0));
-    t.deepEqual(multiply({units: 0x1ede0000}, {billionths: 0xf78a}), normalize({units: 32817, billionths: 134960640}));
-    t.deepEqual(multiply({units: 0x09360000}, {billionths: 0x30ae0000}),
+    t.deepEqual(multiply({units: 28248}, 0), normalize(0));
+    t.deepEqual(multiply({units: 15815}, {billionths: 53207}), normalize({billionths: 841468705}));
+    t.deepEqual(multiply({units: 22149}, {billionths: 465305600}), normalize({units: 10306, billionths: 53734400}));
+    t.deepEqual(multiply({units: 63274}, {units: 26681}), normalize({units: 688213594}));
+    t.deepEqual(multiply({units: 17196}, {units: 258422272}), normalize({units: 829389312}));
+    t.deepEqual(multiply({units: 2486829056}, 0), normalize(0));
+    t.deepEqual(multiply({units: 517865472}, {billionths: 63370}), normalize({units: 32817, billionths: 134960640}));
+    t.deepEqual(multiply({units: 154533888}, {billionths: 816709632}),
         normalize({units: 126209314, billionths: 800009216}));
-    t.deepEqual(multiply({units: 0x36f60000}, {units: 0x11d1}), normalize({units: 0x34d60000}));
-    t.deepEqual(multiply({units: 0x1fc90000}, {units: 0x264e0000}), normalize(0));
-    t.deepEqual(multiply(0, {billionths: -0x3557}), normalize(0));
-    t.deepEqual(multiply(0, {billionths: -0xf0e40000}), normalize(0));
-    t.deepEqual(multiply(0, {units: -0x0ac7}), normalize(0));
-    t.deepEqual(multiply(0, {units: -0x5dc70000}), normalize(0));
-    t.deepEqual(multiply({billionths: 0xaf22}, {billionths: -0x10a3}), normalize(0));
-    t.deepEqual(multiply({billionths: 0xffff}, {billionths: -0xffff}), normalize({billionths: -4}));
-    t.deepEqual(multiply({billionths: 0x5d59}, {billionths: -0x2aa50000}), normalize({billionths: -17097}));
-    t.deepEqual(multiply({billionths: 0x5d5a}, {billionths: -0x2aa50000}), normalize({billionths: -17098}));
-    t.deepEqual(multiply({billionths: 0x5e9d}, {units: -0x1928}), normalize({billionths: -155983240}));
-    t.deepEqual(multiply({billionths: 0x3351}, {units: -0x620c0000}),
+    t.deepEqual(multiply({units: 922091520}, {units: 4561}), normalize({units: 659422720}));
+    t.deepEqual(multiply({units: 533266432}, {units: 642646016}), normalize({units: 991334912}));
+    t.deepEqual(multiply(0, {billionths: -13655}), normalize(0));
+    t.deepEqual(multiply(0, {billionths: -4041474048}), normalize(0));
+    t.deepEqual(multiply(0, {units: -2759}), normalize(0));
+    t.deepEqual(multiply(0, {units: -1573322752}), normalize(0));
+    t.deepEqual(multiply({billionths: 44834}, {billionths: -4259}), normalize(0));
+    t.deepEqual(multiply({billionths: 65535}, {billionths: -65535}), normalize({billionths: -4}));
+    t.deepEqual(multiply({billionths: 23897}, {billionths: -715456512}), normalize({billionths: -17097}));
+    t.deepEqual(multiply({billionths: 23898}, {billionths: -715456512}), normalize({billionths: -17098}));
+    t.deepEqual(multiply({billionths: 24221}, {units: -6440}), normalize({billionths: -155983240}));
+    t.deepEqual(multiply({billionths: 13137}, {units: -1644953600}),
         normalize({units: -21609, billionths: -755443200}));
-    t.deepEqual(multiply({billionths: 0x1e020000}, {billionths: -0x837e}), normalize({billionths: -16947}));
-    t.deepEqual(multiply({billionths: 0x17930000}, {billionths: -0x1e8a0000}), normalize({billionths: -202643558}));
-    t.deepEqual(multiply({billionths: 0x0c170000}, {units: -0x4379}),
+    t.deepEqual(multiply({billionths: 503447552}, {billionths: -33662}), normalize({billionths: -16947}));
+    t.deepEqual(multiply({billionths: 395509760}, {billionths: -512360448}), normalize({billionths: -202643558}));
+    t.deepEqual(multiply({billionths: 202833920}, {units: -17273}),
         normalize({units: -3503, billionths: -550300160}));
-    t.deepEqual(multiply({billionths: 0x11220000}, {units: -0x3c490000}),
-        normalize({units: -290722634, billionths: -4430848}));
-    t.deepEqual(multiply({units: 0x3dc7}, {billionths: -0xcfd7}), normalize({billionths: -0x3227cb21}));
-    t.deepEqual(multiply({units: 0x5685}, {billionths: -0x1bbc0000}),
+    t.deepEqual(multiply({billionths: 287440896}, {units: -11417088}),
+        normalize({units: -3281738, billionths: -4430848}));
+    t.deepEqual(multiply({units: 15815}, {billionths: -53207}), normalize({billionths: -841468705}));
+    t.deepEqual(multiply({units: 22149}, {billionths: -465305600}),
         normalize({units: -10306, billionths: -53734400}));
-    t.deepEqual(multiply({units: 0xf72a}, {units: -0x6839}), normalize({units: -0x64a0185a}));
-    t.deepEqual(multiply({units: 0x432c}, {units: -0x4b020000}), normalize({units: -0x6a580000}));
-    t.deepEqual(multiply({units: 0x1ede0000}, {billionths: -0xf78a}),
+    t.deepEqual(multiply({units: 63274}, {units: -26681}), normalize({units: -688213594}));
+    t.deepEqual(multiply({units: 17196}, {units: -258422272}), normalize({units: -829389312}));
+    t.deepEqual(multiply({units: 517865472}, {billionths: -63370}),
         normalize({units: -32817, billionths: -134960640}));
-    t.deepEqual(multiply({units: 0x09360000}, {billionths: -0x30ae0000}),
+    t.deepEqual(multiply({units: 154533888}, {billionths: -816709632}),
         normalize({units: -126209314, billionths: -800009216}));
-    t.deepEqual(multiply({units: 0x36f60000}, {units: -0x11d1}), normalize({units: -0x34d60000}));
-    t.deepEqual(multiply({units: 0x1fc90000}, {units: -0x264e0000}), normalize(0));
+    t.deepEqual(multiply({units: 922091520}, {units: -4561}), normalize({units: -659422720}));
+    t.deepEqual(multiply({units: 533266432}, {units: -642646016}), normalize(-991334912));
     t.deepEqual(multiply(123, 0), normalize({units: 0, billionths: 0}));
     t.deepEqual(multiply(0, {units: 123, billionths: 456789}), normalize({units: 0, billionths: 0}));
     t.deepEqual(multiply({units: -3456, billionths: -8765}, 0), normalize({units: 0, billionths: 0}));
-    t.deepEqual(multiply({billionths: 0x7e8c}, {billionths: 0x1d0c}), normalize(0));
-    t.deepEqual(multiply({billionths: 0x7e8d}, {billionths: 0x1d0c}), normalize(0));
-    t.deepEqual(multiply({billionths: 0x7e8c}, {billionths: 0x21d90000}), normalize({billionths: 0x47dd}));
-    t.deepEqual(multiply({billionths: 0x7e8d}, {billionths: 0x21d90000}), normalize({billionths: 0x47dd}));
-    t.deepEqual(multiply({billionths: 0x7e8c}, {billionths: 0x21d91d0c}), normalize({billionths: 0x47dd}));
-    t.deepEqual(multiply({billionths: 0x345f0000}, {billionths: 0x1d0c}), normalize({billionths: 0x1986}));
-    t.deepEqual(multiply({billionths: 0x345f0000}, {billionths: 0x21d90000}), normalize({billionths: 0x1dbd6cf3}));
-    t.deepEqual(multiply({billionths: 0x345f7e8c}, {billionths: 0x1d0c}), normalize({billionths: 0x1986}));
-    t.deepEqual(multiply({billionths: 0x345f7e8d}, {billionths: 0x1d0c}), normalize({billionths: 0x1986}));
-});
-
-test.failing("multiply high precision", t => {
-    t.deepEqual(multiply({billionths: 0x7e8d}, {billionths: 0x21d91d0c}), normalize({billionths: 0x47de}));
-    t.deepEqual(multiply({billionths: 0x345f7e8c}, {billionths: 0x21d90000}), normalize({billionths: 0x1dbdce55}));
-    t.deepEqual(multiply({billionths: 0x345f7e8c}, {billionths: 0x21d90000}), normalize({billionths: 0x1dbdce56}));
+    t.deepEqual(multiply({billionths: 32396}, {billionths: 7436}), normalize(0));
+    t.deepEqual(multiply({billionths: 32397}, {billionths: 7436}), normalize(0));
+    t.deepEqual(multiply({billionths: 32396}, {billionths: 567869440}), normalize({billionths: 18397}));
+    t.deepEqual(multiply({billionths: 32397}, {billionths: 567869440}), normalize({billionths: 18397}));
+    t.deepEqual(multiply({billionths: 32396}, {billionths: 567876876}), normalize({billionths: 18397}));
+    t.deepEqual(multiply({billionths: 32397}, {billionths: 567876876}), normalize({billionths: 18398}));
+    t.deepEqual(multiply({billionths: 878641152}, {billionths: 7436}), normalize({billionths: 6534}));
+    t.deepEqual(multiply({billionths: 878641152}, {billionths: 567869440}), normalize({billionths: 498953459}));
+    t.deepEqual(multiply({billionths: 878673548}, {billionths: 7436}), normalize({billionths: 6534}));
+    t.deepEqual(multiply({billionths: 878673549}, {billionths: 7436}), normalize({billionths: 6534}));
+    t.deepEqual(multiply({billionths: 878673548}, {billionths: 567869440}), normalize({billionths: 498971856}));
+    t.deepEqual(multiply({billionths: 878673549}, {billionths: 567869440}), normalize({billionths: 498971856}));
     t.deepEqual(multiply({billionths: 878673548}, {billionths: 567876876}), normalize({billionths: 498978389}));
     t.deepEqual(multiply({billionths: 878673549}, {billionths: 567876876}), normalize({billionths: 498978390}));
     t.deepEqual(multiply({billionths: 878673550}, {billionths: 567876876}), normalize({billionths: 498978391}));
@@ -255,23 +252,23 @@ test.failing("multiply high precision", t => {
     t.deepEqual(multiply({billionths: 878673552}, {billionths: 567876876}), normalize({billionths: 498978392}));
     t.deepEqual(multiply({billionths: 878673553}, {billionths: 567876876}), normalize({billionths: 498978392}));
     t.deepEqual(multiply({units: 35782, billionths: 876567876}, {units: 55676, billionths: 554567865}),
-        normalize({units: 1992267279, billionths: 826525982}));
+        normalize({units: 992267279, billionths: 826525982}));
     t.deepEqual(multiply({units: 35783, billionths: 876567876}, {units: 55676, billionths: 554567865}),
-        normalize({units: 1992322956, billionths: 381093847}));
+        normalize({units: 992322956, billionths: 381093847}));
     t.deepEqual(multiply({units: 35783, billionths: 876567877}, {units: 55676, billionths: 554567865}),
-        normalize({units: 1992322956, billionths: 381149523}));
+        normalize({units: 992322956, billionths: 381149523}));
     t.deepEqual(multiply({units: 35783, billionths: 876567878}, {units: 55676, billionths: 554567865}),
-        normalize({units: 1992322956, billionths: 381205200}));
+        normalize({units: 992322956, billionths: 381205200}));
     t.deepEqual(multiply({units: 35783, billionths: 876567879}, {units: 55676, billionths: 554567865}),
-        normalize({units: 1992322956, billionths: 381260876}));
+        normalize({units: 992322956, billionths: 381260876}));
     t.deepEqual(multiply({units: 35783, billionths: 876567880}, {units: 55676, billionths: 554567865}),
-        normalize({units: 1992322956, billionths: 381316553}));
+        normalize({units: 992322956, billionths: 381316553}));
     t.deepEqual(multiply({units: 35783, billionths: 876567880}, {units: 55676, billionths: 876567876}),
-        normalize({units: 1992334478, billionths: 789965033}));
+        normalize({units: 992334478, billionths: 789965033}));
     t.deepEqual(multiply({units: 35783, billionths: 876567881}, {units: 55676, billionths: 876567876}),
-        normalize({units: 1992334478, billionths: 790020710}));
+        normalize({units: 992334478, billionths: 790020710}));
     t.deepEqual(multiply({units: 35783, billionths: 876567882}, {units: 55676, billionths: 876567876}),
-        normalize({units: 1992334478, billionths: 790076386}));
+        normalize({units: 992334478, billionths: 790076386}));
 });
 
 test("lessThan", t => {

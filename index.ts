@@ -1,6 +1,5 @@
 import {Comparator, Comparison} from "@softwareventures/ordered";
 import imul = require("imul");
-import sign = require("math-sign");
 
 class StrictDecimal {
     constructor(public readonly units: number, public readonly billionths: number) {
@@ -156,143 +155,32 @@ export function subtractFrom(a: DecimalLike): (b: DecimalLike) => Decimal {
 }
 
 export function multiply(a: DecimalLike, b: DecimalLike): Decimal {
-    const an = normalize(a);
-    const bn = normalize(b);
+    const aThousandths = toThousandths(a);
+    const bThousandths = toThousandths(b);
 
-    const as = sign(an.units) || sign(an.billionths);       // -1 | 1
-    const a1 = (imul(as, an.units) >>> 16) & 0xffff;        // max 2^16 - 1
-    const a2 = imul(as, an.units) & 0xffff;                 // max 2^16 - 1
-    const a3 = imul(as, an.billionths) >>> 16;              // max 15258
-    const a4 = imul(as, an.billionths) & 0xffff;            // max 2^16 - 1
-    const bs = sign(bn.units) || sign(bn.billionths);       // -1 | 1
-    const b1 = (imul(bs, bn.units) >>> 16) & 0xffff;        // max 2^16 - 1
-    const b2 = imul(bs, bn.units) & 0xffff;                 // max 2^16 - 1
-    const b3 = (imul(bs, bn.billionths) >>> 16) & 0xffff;   // max 15258
-    const b4 = imul(bs, bn.billionths) & 0xffff;            // max 2^16 - 1
+    const matrix = aThousandths
+        .map(an => bThousandths.map(bn => imul(an, bn)));
 
-    /* tslint:disable:max-line-length */
-    const s = imul(as, bs);          // -1 | 1
-    const a1b2 = imul(a1, b2) >>> 0; // max 2^32 - 131071    // a1b2 << 16 -> units
-    const a1b3 = imul(a1, b3) >>> 0; // max 2^30 - 73808794  // (a1b3 << 32) / 1e9 -> units   // a1b3 << 32 -> billionths
-    const a1b4 = imul(a1, b4) >>> 0; // max 2^32 - 131071    // (a1b4 << 16) / 1e9 -> units   // a1b4 << 16 -> billionths
-    const a2b1 = imul(a2, b1) >>> 0; // max 2^32 - 131071    // a2b1 << 16 -> units
-    const a2b2 = imul(a2, b2) >>> 0; // max 2^32 - 131071    // a2b2 -> units
-    const a2b3 = imul(a2, b3) >>> 0; // max 2^30 - 73808794  // (a2b3 << 16) / 1e9 -> units   // a2b3 << 16 -> billionths
-    const a2b4 = imul(a2, b4) >>> 0; // max 2^32 - 131071    // a2b4 / 1e9 -> units           // a2b4 -> billionths
-    const a3b1 = imul(a3, b1) >>> 0; // max 2^30 - 73808794  // (a3b1 << 32) / 1e9 -> units   // a3b1 << 32 -> billionths
-    const a3b2 = imul(a3, b2) >>> 0; // max 2^30 - 73808794  // (a3b2 << 16) / 1e9 -> units   // a3b2 << 16 -> billionths
-    const a3b3 = imul(a3, b3) >>> 0; // max 2^28 - 35628892                                   // (a3b3 << 32) / 1e9 -> billionths
-    const a3b4 = imul(a3, b4) >>> 0; // max 2^30 - 73808794                                   // (a3b4 << 16) / 1e9 -> billionths
-    const a4b1 = imul(a4, b1) >>> 0; // max 2^32 - 131071    // (a4b1 << 16) / 1e9 -> units   // a4b1 << 16 -> billionths
-    const a4b2 = imul(a4, b2) >>> 0; // max 2^32 - 131071    // a4b2 / 1e9 -> units           // a4b2 -> billionths
-    const a4b3 = imul(a4, b3) >>> 0; // max 2^30 - 73808794                                   // (a4b3 << 16) / 1e9 -> billionths
-    const a4b4 = imul(a4, b4) >>> 0; // max 2^32 - 131071                                     // a4b4 / 1e9 -> billionths
-    /* tslint:enable:max-line-length */
-
-    function usum(...values: number[]): number {
-        let sum = 0;
-        for (let i = 0; i < values.length; ++i) {
-            sum = (sum + values[i]) >>> 0;
+    const cThousandths = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let carry = 0;
+    for (let i = 8; i >= 0; --i) {
+        let sum = carry;
+        for (let j = Math.max(i - 3, 0); j < 6 && j < i + 3; ++j) {
+            const k = i - j + 2;
+            sum = iadd(sum, matrix[j][k]);
         }
-        return sum;
-    }
-
-    function u16sum(...values: number[]): number {
-        let sum = 0;
-        for (let i = 0; i < values.length; ++i) {
-            sum = (sum + values[i]) & 0xffff;
+        cThousandths[i] = imod(sum, 1e3);
+        carry = idiv(sum, 1e3);
+        if (i === 6) {
+            if (cThousandths[6] >= 500) {
+                carry = iadd(carry, 1);
+            } else if (cThousandths[6] < -500) {
+                carry = iadd(carry, -1);
+            }
         }
-        return sum;
     }
 
-    function usummod1e9carry(...values: number[]): { sum: number, carry: number } {
-        let sum = 0;
-        let carry = 0;
-        for (let i = 0; i < values.length; ++i) {
-            const value = values[i] >>> 0;
-            const valueCarry = (value / 1e9) >>> 0;
-            const valueMod = (value - imul(valueCarry, 1e9)) >>> 0;
-            sum = (sum + valueMod) >>> 0;
-            const sumCarry = (sum / 1e9) >>> 0;
-            sum -= imul(sumCarry, 1e9);
-            carry += valueCarry + sumCarry;
-        }
-        return {sum, carry};
-    }
-
-    function ushl16(value: number): number {
-        return (value << 16) >>> 0;
-    }
-
-    function ushl48div1e9(value: number): number {
-        return ((value >>> 0) * 281474.976710656) >>> 0;
-    }
-
-    function ushl32div1e9(value: number): number {
-        return ((value >>> 0) * 4.294967296) >>> 0;
-    }
-
-    function ushl16div1e9(value: number): number {
-        return ((value >>> 0) * 0.000065536) >>> 0;
-    }
-
-    function udiv1e9(value: number): number {
-        return ((value >>> 0) / 1e9) >>> 0;
-    }
-
-    function ushl16mod1e9(value: number): number {
-        const d = ushl16div1e9(value);
-        return ((value << 16) - (d * 1e9)) >>> 0;
-    }
-
-    function ushl32mod1e9(value: number): number {
-        const d = ushl32div1e9(value);
-        return (-d * 1e9) >>> 0;
-    }
-
-    const subBillionths = u16sum(
-        ushl48div1e9(a3b3),
-        ushl32div1e9(a3b4),
-        ushl32div1e9(a4b3));
-
-    const rounding = s > 0
-        ? subBillionths > 0x7fff
-            ? 1
-            : 0
-        : subBillionths > 0x8000
-            ? 1
-            : 0;
-
-    const {sum: billionths, carry: carry} = usummod1e9carry(
-        ushl32mod1e9(a1b3),
-        ushl16mod1e9(a1b4),
-        ushl16mod1e9(a2b3),
-        a2b4,
-        ushl32mod1e9(a3b1),
-        ushl16mod1e9(a3b2),
-        ushl32div1e9(a3b3),
-        ushl16div1e9(a3b4),
-        ushl16mod1e9(a4b1),
-        a4b2,
-        ushl16div1e9(a4b3),
-        udiv1e9(a4b4),
-        rounding);
-
-    const units = usum(
-        ushl16(a1b2),
-        ushl32div1e9(a1b3),
-        ushl16div1e9(a1b4),
-        ushl16(a2b1),
-        a2b2,
-        ushl16div1e9(a2b3),
-        udiv1e9(a2b4),
-        ushl32div1e9(a3b1),
-        ushl16div1e9(a3b2),
-        ushl16div1e9(a4b1),
-        udiv1e9(a4b2),
-        carry);
-
-    return new StrictDecimal(imul(s, units), imul(s, billionths));
+    return fromThousandths(cThousandths.slice(0, 6) as Thousandths);
 }
 
 export function multiplyFn(b: DecimalLike): (a: DecimalLike) => Decimal {
@@ -466,6 +354,10 @@ export function fromThousandths(thousandths: Thousandths): Decimal {
     const units = isum(imul(a, 1e6), imul(b, 1e3), c);
     const billionths = isum(imul(d, 1e6), imul(e, 1e3), f);
     return new StrictDecimal(units, billionths);
+}
+
+function iadd(a: number, b: number): number {
+    return (a + b) | 0;
 }
 
 function isum(...values: number[]): number {

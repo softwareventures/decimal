@@ -594,11 +594,6 @@
   resolved "https://registry.yarnpkg.com/@types/imul/-/imul-1.0.0.tgz#ef8651a1a54ad47ce44f54f6cdb8ffeb912b1043"
   integrity sha512-GcRYdDviNuBikASKNZtc07Yp2XrZnc20/K6GK0EzVe1VzVr974/WIpkh7vIjjSBqnJ3Ei8KWOHEAppx3Hsu+jg==
 
-"@types/math-sign@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@types/math-sign/-/math-sign-1.0.0.tgz#c8b30b188aabedc2996cdf512414c2f324ae9219"
-  integrity sha512-N8PHsqvb4vQ6jRc2S0Ua5IRv46L6pm9Ew5Urp5lywHEU/8bc+GxrVZ9/XjZqEaniGG0fXPlDUfHutejbFG4U+g==
-
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
@@ -4140,13 +4135,6 @@ matcher@^2.0.0:
   integrity sha512-nlmfSlgHBFx36j/Pl/KQPbIaqE8Zf0TqmSMjsuddHDg6PMSVgmyW9HpkLs0o0M1n2GIZ/S2BZBLIww/xjhiGng==
   dependencies:
     escape-string-regexp "^2.0.0"
-
-math-sign@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/math-sign/-/math-sign-1.0.3.tgz#a68726667097f85d7694766eebae0a46eb4a30b7"
-  integrity sha1-pocmZnCX+F12lHZu664KRutKMLc=
-  dependencies:
-    number-is-nan "^1.0.0"
 
 md5-hex@^2.0.0:
   version "2.0.0"

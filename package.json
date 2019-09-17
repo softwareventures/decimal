@@ -44,8 +44,6 @@
   "dependencies": {
     "@softwareventures/ordered": "^0.2.0",
     "@types/imul": "^1.0.0",
-    "@types/math-sign": "^1.0.0",
-    "imul": "^1.0.1",
-    "math-sign": "^1.0.3"
+    "imul": "^1.0.1"
   }
 }
