@@ -19,6 +19,7 @@ import {
     subtract,
     toThousandths
 } from ".";
+import {fromThousandths} from "./index";
 
 test("normalize", t => {
     t.deepEqual({...normalize({})}, {units: 0, billionths: 0});
@@ -407,4 +408,15 @@ test("toThousandths", t => {
     t.deepEqual(toThousandths({units: -1}), [0, 0, -1, 0, 0, 0]);
     t.deepEqual(toThousandths({units: 123456789, billionths: 987654321}), [123, 456, 789, 987, 654, 321]);
     t.deepEqual(toThousandths({units: -123456789, billionths: -987654321}), [-123, -456, -789, -987, -654, -321]);
+});
+
+test("fromThousandths", t => {
+    t.deepEqual(fromThousandths([0, 0, 0, 0, 0, 0]), normalize({units: 0, billionths: 0}));
+    t.deepEqual(fromThousandths([0, 0, 0, 0, 0, 1]), normalize({units: 0, billionths: 1}));
+    t.deepEqual(fromThousandths([0, 0, 0, 0, 0, -1]), normalize({units: 0, billionths: -1}));
+    t.deepEqual(fromThousandths([0, 0, 1, 0, 0, 0]), normalize({units: 1, billionths: 0}));
+    t.deepEqual(fromThousandths([0, 0, -1, 0, 0, 0]), normalize({units: -1, billionths: 0}));
+    t.deepEqual(fromThousandths([123, 456, 789, 987, 654, 321]), normalize({units: 123456789, billionths: 987654321}));
+    t.deepEqual(fromThousandths([-123, -456, -789, -987, -654, -321]),
+        normalize({units: -123456789, billionths: -987654321}));
 });

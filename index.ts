@@ -460,6 +460,22 @@ export function toThousandths(decimal: DecimalLike): Thousandths {
         idiv(billionths, 1e6), imod(idiv(billionths, 1e3), 1e3), imod(billionths, 1e3)];
 }
 
+/** @internal */
+export function fromThousandths(thousandths: Thousandths): Decimal {
+    const [a, b, c, d, e, f] = thousandths;
+    const units = isum(imul(a, 1e6), imul(b, 1e3), c);
+    const billionths = isum(imul(d, 1e6), imul(e, 1e3), f);
+    return new StrictDecimal(units, billionths);
+}
+
+function isum(...values: number[]): number {
+    let sum = 0;
+    for (let i = 0; i < values.length; ++i) {
+        sum = (sum + values[i]) | 0;
+    }
+    return sum;
+}
+
 function idiv(a: number, b: number): number {
     return ((a | 0) / (b | 0)) | 0;
 }
