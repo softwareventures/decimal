@@ -172,7 +172,7 @@ test("subtract", t => {
         normalize({units: 6, billionths: 1}));
 });
 
-test.only("multiply", t => {
+test("multiply", t => {
     t.deepEqual(multiply(0, 0), normalize(0));
     t.deepEqual(multiply(0, {billionths: 13655}), normalize(0));
     t.deepEqual(multiply(0, {billionths: 4041474048}), normalize(0));
