@@ -18,7 +18,7 @@ export interface Decimal {
 
 export type DecimalLike = number | Partial<Decimal>;
 
-export function normalize(value: DecimalLike): Decimal {
+export function decimal(value: DecimalLike): Decimal {
     if (value instanceof StrictDecimal) {
         return value;
     } else {
@@ -68,17 +68,21 @@ export function normalize(value: DecimalLike): Decimal {
     }
 }
 
+export function normalize(value: DecimalLike): Decimal {
+    return decimal(value);
+}
+
 export const zero: Decimal = new StrictDecimal(0, 0);
 
 export const epsilon: Decimal = new StrictDecimal(0, 1);
 
 export function isInteger(value: DecimalLike): boolean {
-    const {billionths} = normalize(value);
+    const {billionths} = decimal(value);
     return billionths === 0;
 }
 
 export function format(value: DecimalLike): string {
-    const {units, billionths} = normalize(value);
+    const {units, billionths} = decimal(value);
 
     if (billionths === 0) {
         return "" + units;
@@ -96,7 +100,7 @@ export function format(value: DecimalLike): string {
 }
 
 export function formatFixed(value: DecimalLike, fractionDigits = 0): string {
-    const n = normalize(value);
+    const n = decimal(value);
     fractionDigits = Math.max(Math.min(fractionDigits, 9), 0) | 0;
 
     if (fractionDigits === 0) {
@@ -125,14 +129,14 @@ export function formatFixedFn(fractionDigits = 0): (value: DecimalLike) => strin
 }
 
 export function negate(value: DecimalLike): Decimal {
-    const {units, billionths} = normalize(value);
+    const {units, billionths} = decimal(value);
     return new StrictDecimal(-units | 0, -billionths | 0);
 }
 
 export function add(a: DecimalLike, b: DecimalLike): Decimal {
-    const an = normalize(a);
-    const bn = normalize(b);
-    return normalize({
+    const an = decimal(a);
+    const bn = decimal(b);
+    return decimal({
         units: an.units + bn.units,
         billionths: an.billionths + bn.billionths
     });
@@ -185,8 +189,8 @@ export function multiplyFn(b: DecimalLike): (a: DecimalLike) => Decimal {
 }
 
 export const compare: Comparator<DecimalLike> = (a, b) => {
-    const an = normalize(a);
-    const bn = normalize(b);
+    const an = decimal(a);
+    const bn = decimal(b);
 
     if (an.units < bn.units) {
         return Comparison.before;
@@ -204,8 +208,8 @@ export const compare: Comparator<DecimalLike> = (a, b) => {
 };
 
 export function lessThan(a: DecimalLike, b: DecimalLike): boolean {
-    const an = normalize(a);
-    const bn = normalize(b);
+    const an = decimal(a);
+    const bn = decimal(b);
 
     return an.units < bn.units || (an.units === bn.units && an.billionths < bn.billionths);
 }
@@ -215,8 +219,8 @@ export function lessThanFn(b: DecimalLike): (a: DecimalLike) => boolean {
 }
 
 export function lessThanOrEqual(a: DecimalLike, b: DecimalLike): boolean {
-    const an = normalize(a);
-    const bn = normalize(b);
+    const an = decimal(a);
+    const bn = decimal(b);
 
     return an.units < bn.units || (an.units === bn.units && an.billionths <= bn.billionths);
 }
@@ -226,8 +230,8 @@ export function lessThanOrEqualFn(b: DecimalLike): (a: DecimalLike) => boolean {
 }
 
 export function greaterThan(a: DecimalLike, b: DecimalLike): boolean {
-    const an = normalize(a);
-    const bn = normalize(b);
+    const an = decimal(a);
+    const bn = decimal(b);
 
     return an.units > bn.units || (an.units === bn.units && an.billionths > bn.billionths);
 }
@@ -237,8 +241,8 @@ export function greaterThanFn(b: DecimalLike): (a: DecimalLike) => boolean {
 }
 
 export function greaterThanOrEqual(a: DecimalLike, b: DecimalLike): boolean {
-    const an = normalize(a);
-    const bn = normalize(b);
+    const an = decimal(a);
+    const bn = decimal(b);
 
     return an.units > bn.units || (an.units === bn.units && an.billionths >= bn.billionths);
 }
@@ -248,8 +252,8 @@ export function greaterThanOrEqualFn(b: DecimalLike): (a: DecimalLike) => boolea
 }
 
 export function equal(a: DecimalLike, b: DecimalLike): boolean {
-    const an = normalize(a);
-    const bn = normalize(b);
+    const an = decimal(a);
+    const bn = decimal(b);
 
     return an.units === bn.units && an.billionths === bn.billionths;
 }
@@ -259,8 +263,8 @@ export function equalFn(b: DecimalLike): (a: DecimalLike) => boolean {
 }
 
 export function notEqual(a: DecimalLike, b: DecimalLike): boolean {
-    const an = normalize(a);
-    const bn = normalize(b);
+    const an = decimal(a);
+    const bn = decimal(b);
 
     return an.units !== bn.units || an.billionths !== bn.billionths;
 }
@@ -270,17 +274,17 @@ export function notEqualFn(b: DecimalLike): (a: DecimalLike) => boolean {
 }
 
 export function abs(value: DecimalLike): Decimal {
-    const {units, billionths} = normalize(value);
+    const {units, billionths} = decimal(value);
     return new StrictDecimal(Math.abs(units), Math.abs(billionths));
 }
 
 export function trunc(value: DecimalLike): Decimal {
-    const {units} = normalize(value);
+    const {units} = decimal(value);
     return new StrictDecimal(units, 0);
 }
 
 export function floor(value: DecimalLike): Decimal {
-    const n = normalize(value);
+    const n = decimal(value);
     if (n.billionths === 0) {
         return n;
     } else if (n.billionths > 0) {
@@ -291,7 +295,7 @@ export function floor(value: DecimalLike): Decimal {
 }
 
 export function ceil(value: DecimalLike): Decimal {
-    const n = normalize(value);
+    const n = decimal(value);
     if (n.billionths === 0) {
         return n;
     } else if (n.billionths > 0) {
@@ -302,7 +306,7 @@ export function ceil(value: DecimalLike): Decimal {
 }
 
 export function round(value: DecimalLike): Decimal {
-    const n = normalize(value);
+    const n = decimal(value);
     if (n.billionths >= 500000000) {
         return new StrictDecimal((n.units + 1) | 0, 0);
     } else if (n.billionths < -500000000) {
@@ -313,8 +317,8 @@ export function round(value: DecimalLike): Decimal {
 }
 
 export function max(a: DecimalLike, b: DecimalLike): Decimal {
-    const an = normalize(a);
-    const bn = normalize(b);
+    const an = decimal(a);
+    const bn = decimal(b);
     return lessThan(an, bn)
         ? bn
         : an;
@@ -325,8 +329,8 @@ export function maxFn(b: DecimalLike): (a: DecimalLike) => Decimal {
 }
 
 export function min(a: DecimalLike, b: DecimalLike): Decimal {
-    const an = normalize(a);
-    const bn = normalize(b);
+    const an = decimal(a);
+    const bn = decimal(b);
     return lessThanOrEqual(an, bn)
         ? an
         : bn;
@@ -339,8 +343,8 @@ export function minFn(b: DecimalLike): (a: DecimalLike) => Decimal {
 type Thousandths = [number, number, number, number, number, number];
 
 /** @internal */
-export function toThousandths(decimal: DecimalLike): Thousandths {
-    const {units, billionths} = normalize(decimal);
+export function toThousandths(value: DecimalLike): Thousandths {
+    const {units, billionths} = decimal(value);
     return [idiv(units, 1e6), imod(idiv(units, 1e3), 1e3), imod(units, 1e3),
         idiv(billionths, 1e6), imod(idiv(billionths, 1e3), 1e3), imod(billionths, 1e3)];
 }
