@@ -305,15 +305,39 @@ export function ceil(value: DecimalLike): Decimal {
     }
 }
 
-export function round(value: DecimalLike): Decimal {
-    const n = decimal(value);
-    if (n.billionths >= 500000000) {
-        return new StrictDecimal((n.units + 1) | 0, 0);
-    } else if (n.billionths < -500000000) {
-        return new StrictDecimal((n.units - 1) | 0, 0);
-    } else {
-        return new StrictDecimal(n.units, 0);
+export function round(value: DecimalLike, fractionDigits = 0): Decimal {
+    if (fractionDigits >= 9) {
+        return decimal(value);
     }
+
+    const {units, billionths} = decimal(value);
+
+    if (fractionDigits <= 0) {
+        if (billionths >= 500000000) {
+            return new StrictDecimal(iadd(units, 1), 0);
+        } else if (billionths < -500000000) {
+            return new StrictDecimal(isub(units, 1), 0);
+        } else {
+            return new StrictDecimal(units, 0);
+        }
+    }
+
+    const pivot = imul(5, ipow(10, 8 - fractionDigits));
+    const modulus = imul(pivot, 2);
+    const modulo = imod(billionths, modulus);
+    const truncated = isub(billionths, modulo);
+
+    if (modulo >= pivot) {
+        return new StrictDecimal(units, iadd(truncated, modulus));
+    } else if (modulo < -pivot) {
+        return new StrictDecimal(units, isub(truncated, modulus));
+    } else {
+        return new StrictDecimal(units, truncated);
+    }
+}
+
+export function roundFn(fractionDigits = 0): (value: DecimalLike) => Decimal {
+    return value => round(value, fractionDigits);
 }
 
 export function max(a: DecimalLike, b: DecimalLike): Decimal {
@@ -369,10 +393,18 @@ function isum(...values: number[]): number {
     return sum;
 }
 
+function isub(a: number, b: number): number {
+    return ((a | 0) - (b | 0)) | 0;
+}
+
 function idiv(a: number, b: number): number {
     return ((a | 0) / (b | 0)) | 0;
 }
 
 function imod(a: number, b: number): number {
     return ((a | 0) % (b | 0)) | 0;
+}
+
+function ipow(a: number, b: number): number {
+    return Math.pow(a | 0, b | 0) | 0;
 }

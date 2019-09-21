@@ -358,6 +358,16 @@ test("round", t => {
     t.deepEqual(round({units: -6225, billionths: -45683}), decimal({units: -6225, billionths: 0}));
     t.deepEqual(round({units: -4539, billionths: -584928927}), decimal({units: -4540, billionths: 0}));
     t.deepEqual(round({units: -45389, billionths: -500000000}), decimal({units: -45389, billionths: 0}));
+    t.deepEqual(round({units: 0, billionths: 343}, 8), decimal({units: 0, billionths: 340}));
+    t.deepEqual(round({units: 6225, billionths: 45683}, 6), decimal({units: 6225, billionths: 46000}));
+    t.deepEqual(round({units: 6225, billionths: 45683}, 7), decimal({units: 6225, billionths: 45700}));
+    t.deepEqual(round({units: 6225, billionths: 45683}, 8), decimal({units: 6225, billionths: 45680}));
+    t.deepEqual(round({units: 4539, billionths: 584928927}, 1), decimal({units: 4539, billionths: 600000000}));
+    t.deepEqual(round({units: 4539, billionths: 584928927}, 2), decimal({units: 4539, billionths: 580000000}));
+    t.deepEqual(round({units: 4539, billionths: 584928927}, 3), decimal({units: 4539, billionths: 585000000}));
+    t.deepEqual(round({units: 4539, billionths: 584928927}, 4), decimal({units: 4539, billionths: 584900000}));
+    t.deepEqual(round({units: 4539, billionths: 584978927}, 4), decimal({units: 4539, billionths: 585000000}));
+    t.deepEqual(round({units: 4539, billionths: 584978927}, 9), decimal({units: 4539, billionths: 584978927}));
 });
 
 test("max", t => {
