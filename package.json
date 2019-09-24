@@ -43,6 +43,6 @@
   },
   "dependencies": {
     "@softwareventures/ordered": "^0.2.0",
-    "i32": "^0.2.0"
+    "i32": "^0.3.0"
   }
 }
