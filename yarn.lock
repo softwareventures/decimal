@@ -2919,9 +2919,9 @@ humanize-ms@^1.2.1:
     ms "^2.0.0"
 
 i32@^0.3.0:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/i32/-/i32-0.3.1.tgz#d344541b82242e016d19efddb871deed30c9815c"
-  integrity sha512-W1YsYRLSxW18MCcmzeuIt/Nba/htQQXiq/PxktjL/443XRZJvRsxG1DYdhQbIgB2vQvPpyqhX/3wdlfSHdceUQ==
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/i32/-/i32-0.3.2.tgz#bdab2fee0eb38cd988d061a60522167a8c2bfe78"
+  integrity sha512-BwqWRJ8Xs/Ga4wVMj+9CowfoVVMKDhKqIBwWlxcDiWPT0kQ+MqfP0HwRNFlul63XEn5Sb4J0S7CvK5IqXKhMrQ==
   dependencies:
     "@softwareventures/array" "^0.16.1"
     "@types/imul" "^1.0.0"
