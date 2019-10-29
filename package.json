@@ -17,6 +17,7 @@
     "test": "tslint --project . && ava",
     "semantic-release": "semantic-release"
   },
+  "sideEffects": false,
   "devDependencies": {
     "@softwareventures/tsconfig": "2.1.0",
     "@softwareventures/tslint-rules": "0.7.1",
