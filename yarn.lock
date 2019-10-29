@@ -1956,9 +1956,9 @@ dezalgo@^1.0.0, dezalgo@~1.0.3:
     wrappy "1"
 
 dictionary-types@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/dictionary-types/-/dictionary-types-1.0.0.tgz#c74738702a2253dce2f2761f5e0a44f203f994fb"
-  integrity sha512-WBoXmEOlpph7MeUNAaHzf704J15wpTgic6xlnak47uuibcmOKEdYBwmVRR4mHtNz+K2MGLvxE2m1LojdqwpTPA==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/dictionary-types/-/dictionary-types-1.0.1.tgz#290286529b26e1215997dd2e98baf63f4711687b"
+  integrity sha512-JGpbd8PS4NP6L3JMA+zctLmUQLMC2btt++D8C/DxrxVnxfiXIlcPiHE6ParZBCiUasvm70CAzs6zKKN0evbwHg==
 
 diff@^4.0.1:
   version "4.0.1"
@@ -2953,9 +2953,9 @@ humanize-ms@^1.2.1:
     ms "^2.0.0"
 
 i32@^0.3.0:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/i32/-/i32-0.3.3.tgz#7088a9bdd172d85f664ce3cc5d2a7361fa5f0ab4"
-  integrity sha512-zmy0DjwM58VxQW4Xasdc0ExaXYHDBVU56QAaDqAfJoXLUXyCBc4CCa7AzbzL4d5QwsAP2W8pn+r9YnzBndcpnQ==
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/i32/-/i32-0.3.4.tgz#0851dbe4d1bf7cb4956eda02ef975db73b9918d7"
+  integrity sha512-HdmJ1JjYaSY9zsXP3zNJ8zGfoLaqSwYHGRFzviqzeV+UJYURCZlG74S2p7cHKdAVm7NHVvi+J7s+NkNOnzxaiA==
   dependencies:
     "@softwareventures/array" "^0.16.1"
     "@types/imul" "^1.0.0"
