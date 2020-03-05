@@ -267,10 +267,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@softwareventures/array@^0.20.0":
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/@softwareventures/array/-/array-0.20.0.tgz#0a18829805c49701eafbf391069557de74ab96c1"
-  integrity sha512-yxfSI49S6sCysk2bI+T+rl1BOrWRao65OHP11rsCjM5H5csFGAOehqjg2Y+PCepAcYoki032Gwe/XatpaGKkwQ==
+"@softwareventures/array@^0.21.0":
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/@softwareventures/array/-/array-0.21.0.tgz#5bce31585442ca18656eb1b6c8b1ebf88943729b"
+  integrity sha512-4Fk3A0/owghqDe5xv6gd7YZ4vTGFTJEorsCAX6cqDP0PObYAH7hBaH/onePmFjFdQV3LjaS2g+w+zqtURBY86w==
   dependencies:
     "@softwareventures/ordered" "^0.2.0"
     dictionary-types "1.1.0"
@@ -2691,14 +2691,14 @@ humanize-ms@^1.2.1:
     ms "^2.0.0"
 
 i32@^0.3.0:
-  version "0.3.8"
-  resolved "https://registry.yarnpkg.com/i32/-/i32-0.3.8.tgz#e1c433a0abfd3927357d712d39dccce110bad6b1"
-  integrity sha512-ZBt5BLdzkd5nGosj0CTOqL8dF/8oNjvPEvOS/sw++8XxP2bV3Hk7ilFPZvd8zq9Efi+dbiqHowTWXwKnByza1w==
+  version "0.3.9"
+  resolved "https://registry.yarnpkg.com/i32/-/i32-0.3.9.tgz#c73e42b499523436ff7f257b0daadf263d4ee284"
+  integrity sha512-k7VqbTEp8dHPePZqkd5JvsqVPkADvpXy+71PfmmM5I9bzWYA2kGwIAZSM0tPbwaIyp9h0WaG0+Oh9LBkTMqR5A==
   dependencies:
-    "@softwareventures/array" "^0.20.0"
+    "@softwareventures/array" "^0.21.0"
     "@types/imul" "^1.0.0"
     imul "^1.0.1"
-    tslib "1.10.0"
+    tslib "1.11.1"
 
 iconv-lite@^0.4.24, iconv-lite@~0.4.13:
   version "0.4.24"
@@ -6256,20 +6256,15 @@ ts-node@8.6.2:
     source-map-support "^0.5.6"
     yn "3.1.1"
 
-tslib@1.10.0:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
-  integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
+tslib@1.11.1, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
+  integrity sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA==
 
 tslib@1.9.0:
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.0.tgz#e37a86fda8cbbaf23a057f473c9f4dc64e5fc2e8"
   integrity sha512-f/qGG2tUkrISBlQZEjEqoZ3B2+npJjIf04H1wuAv9iA8i04Icp+61KRXxFdha22670NJopsZCIjhC3SnjPRKrQ==
-
-tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.11.1.tgz#eb15d128827fbee2841549e171f45ed338ac7e35"
-  integrity sha512-aZW88SY8kQbU7gpV19lN24LtXh/yD4ZZg6qieAJDDg+YBsJcSmLGK9QpnUjAKVG/xefmvJGd1WUmfpT/g6AJGA==
 
 tslint-eslint-rules@^5.4.0:
   version "5.4.0"
