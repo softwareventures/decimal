@@ -267,14 +267,23 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@softwareventures/array@^0.21.0":
-  version "0.21.1"
-  resolved "https://registry.yarnpkg.com/@softwareventures/array/-/array-0.21.1.tgz#747a7c5d9f45b960b71b6897115ce5b483627ea2"
-  integrity sha512-HbEqvEGtUPS8vBgmEvNe/e+/P51XJj768NHBb5uJLoy1DDXAXo1AV96w/Sj2JB8Wvlkc7uiRoYk86STBL1+PDw==
+"@softwareventures/array@^0.22.0":
+  version "0.22.0"
+  resolved "https://registry.yarnpkg.com/@softwareventures/array/-/array-0.22.0.tgz#ee0bf8ec35e76c1d9e6162ac52d9a198a7750e64"
+  integrity sha512-MoM1Cwg8a6CGET2F9AkT4A/Yb56po6xtq5HUVwgUv6CVyCMawJQ7s3aF+258DcbRrpoZLGjiJEQMD970SJFVSQ==
   dependencies:
+    "@softwareventures/dictionary" "^0.6.0"
     "@softwareventures/ordered" "^0.2.0"
-    dictionary-types "1.1.0"
+    dictionary-types "^1.2.0"
     tslib "^1.9.3"
+
+"@softwareventures/dictionary@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@softwareventures/dictionary/-/dictionary-0.6.0.tgz#ad3b29cb62c0d7f08aeff7aa68a04906da8f5f7f"
+  integrity sha512-miqRKpPLpAkHxrP0ImN1m9ee8/dO0ORWYSh6wEmZBCuUZqwOXvTDRU6HLZ3wFGezEi+JOj7hqGFyCU3Z0zyOvw==
+  dependencies:
+    dictionary-types "^1.2.0"
+    tslib "1.11.1"
 
 "@softwareventures/ordered@^0.2.0":
   version "0.2.1"
@@ -1735,10 +1744,10 @@ dezalgo@^1.0.0, dezalgo@~1.0.3:
     asap "^2.0.0"
     wrappy "1"
 
-dictionary-types@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/dictionary-types/-/dictionary-types-1.1.0.tgz#584a3dcba987360a3c43e0236914a9e10fa1b0d9"
-  integrity sha512-qRmoAVD7uBv6K+TkiuyRR2iCvNPeBvaGFDVhpVgkil1a06Q/X892BFPKywuhAEwdmrAI/d8LtodUqRgkaQ4U2g==
+dictionary-types@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/dictionary-types/-/dictionary-types-1.2.0.tgz#187d89b63b044a65a5e4aed0f2345271f086200d"
+  integrity sha512-zeP98fC8l+xwHMCw+q9spJCnDrm4ou3Vyk9yNihjJeJD9Mi+zuFxtyO6kAmX5b5d49mavZ6VYvVFF3Ap6hCzBw==
 
 diff@^4.0.1:
   version "4.0.2"
@@ -2691,11 +2700,11 @@ humanize-ms@^1.2.1:
     ms "^2.0.0"
 
 i32@^0.3.0:
-  version "0.3.9"
-  resolved "https://registry.yarnpkg.com/i32/-/i32-0.3.9.tgz#c73e42b499523436ff7f257b0daadf263d4ee284"
-  integrity sha512-k7VqbTEp8dHPePZqkd5JvsqVPkADvpXy+71PfmmM5I9bzWYA2kGwIAZSM0tPbwaIyp9h0WaG0+Oh9LBkTMqR5A==
+  version "0.3.10"
+  resolved "https://registry.yarnpkg.com/i32/-/i32-0.3.10.tgz#f1d46a43bc908324b94927b8ecfea7fc7d998379"
+  integrity sha512-EBvZFxiNlgTDcQYfruf9vTyIBNWx0PhfCd87qTA4DOpUv86rHcP1JUaLCxkHAT9b8v/hId4rRP2pZeH6wq3VFg==
   dependencies:
-    "@softwareventures/array" "^0.21.0"
+    "@softwareventures/array" "^0.22.0"
     "@types/imul" "^1.0.0"
     imul "^1.0.1"
     tslib "1.11.1"
