@@ -272,10 +272,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
   integrity sha512-9NET910DNaIPngYnLLPeg+Ogzqsi9uM4mSboU5y6p8S5DzMTVEsJZrawi+BoDNUVBa2DhJqQYUFvMDfgU062LQ==
 
-"@softwareventures/array@^0.29.0":
-  version "0.29.0"
-  resolved "https://registry.yarnpkg.com/@softwareventures/array/-/array-0.29.0.tgz#3ea13e91c1fca70305b11ae86f9447fc5be36e6e"
-  integrity sha512-4Pe8TVpjnCjTYll1V4UY4id6DKy/1qlMFvidy/OZ/6JUbi7FaHbggRdGyNjV3UfkWfAVzUYBv5zByiATbVWb0w==
+"@softwareventures/array@^0.31.0":
+  version "0.31.0"
+  resolved "https://registry.yarnpkg.com/@softwareventures/array/-/array-0.31.0.tgz#6c2db83d78a8601d0c7172885715b21ba91b5f8a"
+  integrity sha512-PBDOoblFyZlZYDkbOJTfS2zqFoqbiSs0Kyht1lQdHvmmkaSMUvx2H0eCFzNFP7Qks8/dnAZWSmRYutjYsFtwzQ==
   dependencies:
     "@softwareventures/dictionary" "^0.6.0"
     "@softwareventures/ordered" "^0.2.0"
@@ -2720,11 +2720,11 @@ humanize-ms@^1.2.1:
     ms "^2.0.0"
 
 i32@^0.3.0:
-  version "0.3.11"
-  resolved "https://registry.yarnpkg.com/i32/-/i32-0.3.11.tgz#120801f15b07a50970f5c4c83acf90d3c130a7a3"
-  integrity sha512-VcrNU009UhuogkbpdLoFSR1hpOoz0v4piM3x6YZW+PNYo9CZ68Vqs1YDUZJP7ZzyVhB84GtozFkUZ8Z8KAGV+w==
+  version "0.3.12"
+  resolved "https://registry.yarnpkg.com/i32/-/i32-0.3.12.tgz#5f25f729305e7a337c770fffc0faa7f6af4acd73"
+  integrity sha512-4ouiI65OE+D3BXoTbdWsKI/90pJEa2EdzK9MBc7mZs9bw/2+peSGKTmKsHMlyjxP6Uv3IeSfzB2M1j0aXrY6CA==
   dependencies:
-    "@softwareventures/array" "^0.29.0"
+    "@softwareventures/array" "^0.31.0"
     "@types/imul" "^1.0.0"
     imul "^1.0.1"
     tslib "1.11.1"
