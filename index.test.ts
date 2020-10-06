@@ -20,7 +20,7 @@ import {
     subtract,
     toThousandths
 } from ".";
-import {floor, fromThousandths} from "./index";
+import {ceil, floor, fromThousandths} from "./index";
 
 test("normalize", t => {
     t.deepEqual({...normalize({})}, {units: 0, billionths: 0});
@@ -378,6 +378,37 @@ test("floor", t => {
     t.deepEqual(floor({units: -4539, billionths: -584928927}, 4), decimal({units: -4539, billionths: -585000000}));
     t.deepEqual(floor({units: -4539, billionths: -584978927}, 4), decimal({units: -4539, billionths: -585000000}));
     t.deepEqual(floor({units: -4539, billionths: -584978927}, 9), decimal({units: -4539, billionths: -584978927}));
+});
+
+test("ceil", t => {
+    t.deepEqual(ceil({units: 0, billionths: 343}), decimal({units: 1, billionths: 0}));
+    t.deepEqual(ceil({units: 6225, billionths: 45683}), decimal({units: 6226, billionths: 0}));
+    t.deepEqual(ceil({units: 4539, billionths: 584928927}), decimal({units: 4540, billionths: 0}));
+    t.deepEqual(ceil({units: 45389, billionths: 500000000}), decimal({units: 45390, billionths: 0}));
+    t.deepEqual(ceil({units: -0, billionths: -343}), decimal({units: 0, billionths: 0}));
+    t.deepEqual(ceil({units: -6225, billionths: -45683}), decimal({units: -6225, billionths: 0}));
+    t.deepEqual(ceil({units: -4539, billionths: -584928927}), decimal({units: -4539, billionths: 0}));
+    t.deepEqual(ceil({units: -45389, billionths: -500000000}), decimal({units: -45389, billionths: 0}));
+    t.deepEqual(ceil({units: 0, billionths: 343}, 8), decimal({units: 0, billionths: 350}));
+    t.deepEqual(ceil({units: 6225, billionths: 45683}, 6), decimal({units: 6225, billionths: 46000}));
+    t.deepEqual(ceil({units: 6225, billionths: 45683}, 7), decimal({units: 6225, billionths: 45700}));
+    t.deepEqual(ceil({units: 6225, billionths: 45683}, 8), decimal({units: 6225, billionths: 45690}));
+    t.deepEqual(ceil({units: 4539, billionths: 584928927}, 1), decimal({units: 4539, billionths: 600000000}));
+    t.deepEqual(ceil({units: 4539, billionths: 584928927}, 2), decimal({units: 4539, billionths: 590000000}));
+    t.deepEqual(ceil({units: 4539, billionths: 584928927}, 3), decimal({units: 4539, billionths: 585000000}));
+    t.deepEqual(ceil({units: 4539, billionths: 584928927}, 4), decimal({units: 4539, billionths: 585000000}));
+    t.deepEqual(ceil({units: 4539, billionths: 584978927}, 4), decimal({units: 4539, billionths: 585000000}));
+    t.deepEqual(ceil({units: 4539, billionths: 584978927}, 9), decimal({units: 4539, billionths: 584978927}));
+    t.deepEqual(ceil({units: -0, billionths: -343}, 8), decimal({units: -0, billionths: -340}));
+    t.deepEqual(ceil({units: -6225, billionths: -45683}, 6), decimal({units: -6225, billionths: -45000}));
+    t.deepEqual(ceil({units: -6225, billionths: -45683}, 7), decimal({units: -6225, billionths: -45600}));
+    t.deepEqual(ceil({units: -6225, billionths: -45683}, 8), decimal({units: -6225, billionths: -45680}));
+    t.deepEqual(ceil({units: -4539, billionths: -584928927}, 1), decimal({units: -4539, billionths: -500000000}));
+    t.deepEqual(ceil({units: -4539, billionths: -584928927}, 2), decimal({units: -4539, billionths: -580000000}));
+    t.deepEqual(ceil({units: -4539, billionths: -584928927}, 3), decimal({units: -4539, billionths: -584000000}));
+    t.deepEqual(ceil({units: -4539, billionths: -584928927}, 4), decimal({units: -4539, billionths: -584900000}));
+    t.deepEqual(ceil({units: -4539, billionths: -584978927}, 4), decimal({units: -4539, billionths: -584900000}));
+    t.deepEqual(ceil({units: -4539, billionths: -584978927}, 9), decimal({units: -4539, billionths: -584978927}));
 });
 
 test("round", t => {
