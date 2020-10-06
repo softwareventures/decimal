@@ -1,5 +1,5 @@
 import {Comparator, Comparison} from "@softwareventures/ordered";
-import {i32, iadd, idiv, imod, imul, ipow, isub, isum} from "i32";
+import {i32, iadd, idiv, imod, imul, ineg, ipow, isub, isum} from "i32";
 
 class StrictDecimal {
     constructor(public readonly units: number, public readonly billionths: number) {
@@ -130,7 +130,7 @@ export function formatFixedFn(fractionDigits = 0): (value: DecimalLike) => strin
 
 export function negate(value: DecimalLike): Decimal {
     const {units, billionths} = decimal(value);
-    return new StrictDecimal(i32(-units), i32(-billionths));
+    return new StrictDecimal(ineg(units), ineg(billionths));
 }
 
 export function add(a: DecimalLike, b: DecimalLike): Decimal {
@@ -290,7 +290,7 @@ export function floor(value: DecimalLike): Decimal {
     } else if (n.billionths > 0) {
         return new StrictDecimal(n.units, 0);
     } else {
-        return new StrictDecimal(i32(n.units - 1), 0);
+        return new StrictDecimal(isub(n.units, 1), 0);
     }
 }
 
@@ -299,7 +299,7 @@ export function ceil(value: DecimalLike): Decimal {
     if (n.billionths === 0) {
         return n;
     } else if (n.billionths > 0) {
-        return new StrictDecimal(i32(n.units + 1), 0);
+        return new StrictDecimal(iadd(n.units, 1), 0);
     } else {
         return new StrictDecimal(n.units, 0);
     }
