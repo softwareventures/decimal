@@ -283,15 +283,38 @@ export function trunc(value: DecimalLike): Decimal {
     return new StrictDecimal(units, 0);
 }
 
-export function floor(value: DecimalLike): Decimal {
+export function floor(value: DecimalLike, fractionDigits = 0): Decimal {
+    fractionDigits = i32(Math.max(Math.min(fractionDigits, 9), 0));
+
     const n = decimal(value);
-    if (n.billionths === 0) {
+
+    if (fractionDigits >= 9 || n.billionths === 0) {
         return n;
-    } else if (n.billionths > 0) {
-        return new StrictDecimal(n.units, 0);
-    } else {
-        return new StrictDecimal(isub(n.units, 1), 0);
     }
+
+    if (fractionDigits <= 0) {
+        if (n.billionths === 0) {
+            return n;
+        } else if (n.billionths > 0) {
+            return new StrictDecimal(n.units, 0);
+        } else {
+            return new StrictDecimal(isub(n.units, 1), 0);
+        }
+    }
+
+    const modulus = imul(10, ipow(10, 8 - fractionDigits));
+    const modulo = imod(n.billionths, modulus);
+    const truncated = isub(n.billionths, modulo);
+
+    if (n.billionths < 0 && modulo !== 0) {
+        return new StrictDecimal(n.units, isub(truncated, modulus));
+    } else {
+        return new StrictDecimal(n.units, truncated);
+    }
+}
+
+export function floorFn(fractionDigits: number): (value: DecimalLike) => Decimal {
+    return value => floor(value, fractionDigits);
 }
 
 export function ceil(value: DecimalLike): Decimal {
