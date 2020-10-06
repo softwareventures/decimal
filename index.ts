@@ -306,6 +306,8 @@ export function ceil(value: DecimalLike): Decimal {
 }
 
 export function round(value: DecimalLike, fractionDigits = 0): Decimal {
+    fractionDigits = Math.max(Math.min(fractionDigits, 9), 0) | 0;
+
     if (fractionDigits >= 9) {
         return decimal(value);
     }
