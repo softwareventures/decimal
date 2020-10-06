@@ -72,13 +72,23 @@ export function normalize(value: DecimalLike): Decimal {
     return decimal(value);
 }
 
+export function normalizeDecimal(value: DecimalLike): Decimal {
+    return decimal(value);
+}
+
 export const zero: Decimal = new StrictDecimal(0, 0);
+export const decimalZero = zero;
 
 export const epsilon: Decimal = new StrictDecimal(0, 1);
+export const decimalEpsilon = epsilon;
 
 export function isInteger(value: DecimalLike): boolean {
     const {billionths} = decimal(value);
     return billionths === 0;
+}
+
+export function decimalIsInteger(value: DecimalLike): boolean {
+    return isInteger(value);
 }
 
 export function parse(text: string): Decimal | null {
@@ -101,6 +111,10 @@ export function parse(text: string): Decimal | null {
         : new StrictDecimal(i32(units), i32(billionths));
 }
 
+export function parseDecimal(text: string): Decimal | null {
+    return parse(text);
+}
+
 export function format(value: DecimalLike): string {
     const {units, billionths} = decimal(value);
 
@@ -117,6 +131,10 @@ export function format(value: DecimalLike): string {
                 .substr(-9)
                 .replace(/0*$/, "");
     }
+}
+
+export function formatDecimal(value: DecimalLike): string {
+    return format(value);
 }
 
 export function formatFixed(value: DecimalLike, fractionDigits = 0): string {
@@ -148,9 +166,21 @@ export function formatFixedFn(fractionDigits = 0): (value: DecimalLike) => strin
     return value => formatFixed(value, fractionDigits);
 }
 
+export function formatDecimalFixed(value: DecimalLike, fractionDigits = 0): string {
+    return formatFixed(value, fractionDigits);
+}
+
+export function formatDecimalFixedFn(fractionDigits = 0): (value: DecimalLike) => string {
+    return formatFixedFn(fractionDigits);
+}
+
 export function negate(value: DecimalLike): Decimal {
     const {units, billionths} = decimal(value);
     return new StrictDecimal(ineg(units), ineg(billionths));
+}
+
+export function negateDecimal(value: DecimalLike): Decimal {
+    return negate(value);
 }
 
 export function add(a: DecimalLike, b: DecimalLike): Decimal {
@@ -166,6 +196,14 @@ export function addFn(b: DecimalLike): (a: DecimalLike) => Decimal {
     return a => add(a, b);
 }
 
+export function addDecimal(a: DecimalLike, b: DecimalLike): Decimal {
+    return add(a, b);
+}
+
+export function addDecimalFn(b: DecimalLike): (a: DecimalLike) => Decimal {
+    return addFn(b);
+}
+
 export function subtract(a: DecimalLike, b: DecimalLike): Decimal {
     return add(a, negate(b));
 }
@@ -174,8 +212,20 @@ export function subtractFn(b: DecimalLike): (a: DecimalLike) => Decimal {
     return a => subtract(a, b);
 }
 
+export function subtractDecimal(a: DecimalLike, b: DecimalLike): Decimal {
+    return subtract(a, b);
+}
+
+export function subtractDecimalFn(b: DecimalLike): (a: DecimalLike) => Decimal {
+    return subtractFn(b);
+}
+
 export function subtractFrom(a: DecimalLike): (b: DecimalLike) => Decimal {
     return b => subtract(a, b);
+}
+
+export function subtractDecimalFrom(a: DecimalLike): (b: DecimalLike) => Decimal {
+    return subtractFrom(a);
 }
 
 export function multiply(a: DecimalLike, b: DecimalLike): Decimal {
@@ -208,6 +258,14 @@ export function multiplyFn(b: DecimalLike): (a: DecimalLike) => Decimal {
     return a => multiply(a, b);
 }
 
+export function multiplyDecimal(a: DecimalLike, b: DecimalLike): Decimal {
+    return multiply(a, b);
+}
+
+export function multiplyDecimalFn(b: DecimalLike): (a: DecimalLike) => Decimal {
+    return multiplyFn(b);
+}
+
 export const compare: Comparator<DecimalLike> = (a, b) => {
     const an = decimal(a);
     const bn = decimal(b);
@@ -227,6 +285,8 @@ export const compare: Comparator<DecimalLike> = (a, b) => {
     }
 };
 
+export const compareDecimal = compare;
+
 export function lessThan(a: DecimalLike, b: DecimalLike): boolean {
     const an = decimal(a);
     const bn = decimal(b);
@@ -236,6 +296,14 @@ export function lessThan(a: DecimalLike, b: DecimalLike): boolean {
 
 export function lessThanFn(b: DecimalLike): (a: DecimalLike) => boolean {
     return a => lessThan(a, b);
+}
+
+export function decimalLessThan(a: DecimalLike, b: DecimalLike): boolean {
+    return lessThan(a, b);
+}
+
+export function decimalLessThanFn(b: DecimalLike): (a: DecimalLike) => boolean {
+    return lessThanFn(b);
 }
 
 export function lessThanOrEqual(a: DecimalLike, b: DecimalLike): boolean {
@@ -249,6 +317,14 @@ export function lessThanOrEqualFn(b: DecimalLike): (a: DecimalLike) => boolean {
     return a => lessThanOrEqual(a, b);
 }
 
+export function decimalLessThanOrEqual(a: DecimalLike, b: DecimalLike): boolean {
+    return lessThanOrEqual(a, b);
+}
+
+export function decimalLessThanOrEqualFn(b: DecimalLike): (a: DecimalLike) => boolean {
+    return lessThanOrEqualFn(b);
+}
+
 export function greaterThan(a: DecimalLike, b: DecimalLike): boolean {
     const an = decimal(a);
     const bn = decimal(b);
@@ -258,6 +334,14 @@ export function greaterThan(a: DecimalLike, b: DecimalLike): boolean {
 
 export function greaterThanFn(b: DecimalLike): (a: DecimalLike) => boolean {
     return a => greaterThan(a, b);
+}
+
+export function decimalGreaterThan(a: DecimalLike, b: DecimalLike): boolean {
+    return greaterThan(a, b);
+}
+
+export function decimalGreaterThanFn(b: DecimalLike): (a: DecimalLike) => boolean {
+    return greaterThanFn(b);
 }
 
 export function greaterThanOrEqual(a: DecimalLike, b: DecimalLike): boolean {
@@ -271,6 +355,14 @@ export function greaterThanOrEqualFn(b: DecimalLike): (a: DecimalLike) => boolea
     return a => greaterThanOrEqual(a, b);
 }
 
+export function decimalGreaterThanOrEqual(a: DecimalLike, b: DecimalLike): boolean {
+    return greaterThanOrEqual(a, b);
+}
+
+export function decimalGreaterThanOrEqualFn(b: DecimalLike): (a: DecimalLike) => boolean {
+    return greaterThanOrEqualFn(b);
+}
+
 export function equal(a: DecimalLike, b: DecimalLike): boolean {
     const an = decimal(a);
     const bn = decimal(b);
@@ -280,6 +372,14 @@ export function equal(a: DecimalLike, b: DecimalLike): boolean {
 
 export function equalFn(b: DecimalLike): (a: DecimalLike) => boolean {
     return a => equal(a, b);
+}
+
+export function decimalEqual(a: DecimalLike, b: DecimalLike): boolean {
+    return equal(a, b);
+}
+
+export function decimalEqualFn(b: DecimalLike): (a: DecimalLike) => boolean {
+    return equalFn(b);
 }
 
 export function notEqual(a: DecimalLike, b: DecimalLike): boolean {
@@ -293,14 +393,30 @@ export function notEqualFn(b: DecimalLike): (a: DecimalLike) => boolean {
     return a => notEqual(a, b);
 }
 
+export function decimalNotEqual(a: DecimalLike, b: DecimalLike): boolean {
+    return notEqual(a, b);
+}
+
+export function decimalNotEqualFn(b: DecimalLike): (a: DecimalLike) => boolean {
+    return notEqualFn(b);
+}
+
 export function abs(value: DecimalLike): Decimal {
     const {units, billionths} = decimal(value);
     return new StrictDecimal(Math.abs(units), Math.abs(billionths));
 }
 
+export function decimalAbs(value: DecimalLike): Decimal {
+    return abs(value);
+}
+
 export function trunc(value: DecimalLike): Decimal {
     const {units} = decimal(value);
     return new StrictDecimal(units, 0);
+}
+
+export function decimalTrunc(value: DecimalLike): Decimal {
+    return trunc(value);
 }
 
 export function floor(value: DecimalLike, fractionDigits = 0): Decimal {
@@ -337,6 +453,14 @@ export function floorFn(fractionDigits: number): (value: DecimalLike) => Decimal
     return value => floor(value, fractionDigits);
 }
 
+export function decimalFloor(value: DecimalLike, fractionDigits = 0): Decimal {
+    return floor(value, fractionDigits);
+}
+
+export function decimalFloorFn(fractionDigits: number): (value: DecimalLike) => Decimal {
+    return floorFn(fractionDigits);
+}
+
 export function ceil(value: DecimalLike, fractionDigits = 0): Decimal {
     fractionDigits = i32(Math.max(Math.min(fractionDigits, 9), 0));
 
@@ -369,6 +493,14 @@ export function ceil(value: DecimalLike, fractionDigits = 0): Decimal {
 
 export function ceilFn(fractionDigits: number): (value: DecimalLike) => Decimal {
     return value => ceil(value, fractionDigits);
+}
+
+export function decimalCeil(value: DecimalLike, fractionDigits = 0): Decimal {
+    return ceil(value, fractionDigits);
+}
+
+export function decimalCeilFn(fractionDigits: number): (value: DecimalLike) => Decimal {
+    return ceilFn(fractionDigits);
 }
 
 export function round(value: DecimalLike, fractionDigits = 0): Decimal {
@@ -408,6 +540,14 @@ export function roundFn(fractionDigits = 0): (value: DecimalLike) => Decimal {
     return value => round(value, fractionDigits);
 }
 
+export function decimalRound(value: Decimal, fractionDigits = 0): Decimal {
+    return round(value, fractionDigits);
+}
+
+export function decimalRoundFn(fractionDigits = 0): (value: DecimalLike) => Decimal {
+    return roundFn(fractionDigits);
+}
+
 export function max(a: DecimalLike, b: DecimalLike): Decimal {
     const an = decimal(a);
     const bn = decimal(b);
@@ -420,6 +560,14 @@ export function maxFn(b: DecimalLike): (a: DecimalLike) => Decimal {
     return a => max(a, b);
 }
 
+export function maxDecimal(a: DecimalLike, b: DecimalLike): Decimal {
+    return max(a, b);
+}
+
+export function maxDecimalFn(b: DecimalLike): (a: DecimalLike) => Decimal {
+    return maxFn(b);
+}
+
 export function min(a: DecimalLike, b: DecimalLike): Decimal {
     const an = decimal(a);
     const bn = decimal(b);
@@ -430,6 +578,14 @@ export function min(a: DecimalLike, b: DecimalLike): Decimal {
 
 export function minFn(b: DecimalLike): (a: DecimalLike) => Decimal {
     return a => min(a, b);
+}
+
+export function minDecimal(a: DecimalLike, b: DecimalLike): Decimal {
+    return min(a, b);
+}
+
+export function minDecimalFn(b: DecimalLike): (a: DecimalLike) => Decimal {
+    return minFn(b);
 }
 
 type Thousandths = [number, number, number, number, number, number];
