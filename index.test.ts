@@ -20,7 +20,7 @@ import {
     subtract,
     toThousandths
 } from ".";
-import {ceil, floor, fromThousandths} from "./index";
+import {ceil, floor, fromThousandths, parse} from "./index";
 
 test("normalize", t => {
     t.deepEqual({...normalize({})}, {units: 0, billionths: 0});
@@ -66,6 +66,30 @@ test("toString", t => {
     t.is(decimal({units: 1 / 0}).toString(), "Decimal 0");
     t.is(decimal({units: -1 / 0}).toString(), "Decimal 0");
     t.is(decimal({units: 0 / 0}).toString(), "Decimal 0");
+});
+
+test("parse", t => {
+    t.is(parse(""), null);
+    t.is(parse("123abc"), null);
+    t.is(parse("."), null);
+    t.deepEqual(parse("0"), decimal(0));
+    t.deepEqual(parse("1"), decimal(1));
+    t.deepEqual(parse(".000000001"), decimal({billionths: 1}));
+    t.deepEqual(parse("0.000000021"), decimal({billionths: 21}));
+    t.deepEqual(parse("1.000000001"), decimal({units: 1, billionths: 1}));
+    t.deepEqual(parse("-1"), decimal({units: -1, billionths: 0}));
+    t.deepEqual(parse("-000.000000001"), decimal({units: 0, billionths: -1}));
+    t.deepEqual(parse("0.999999999"), decimal({units: 0, billionths: 999999999}));
+    t.deepEqual(parse("-.999999999"), decimal({units: 0, billionths: -999999999}));
+    t.deepEqual(parse("1.1"), decimal({units: 1, billionths: 100000000}));
+    t.deepEqual(parse("2.34"), decimal({units: 2, billionths: 340000000}));
+    t.deepEqual(parse("1234567890.123456789"), decimal({units: 1234567890, billionths: 123456789}));
+    t.deepEqual(parse("-1234567890.123456789"), decimal({units: -1234567890, billionths: -123456789}));
+    t.deepEqual(parse("+1234567890.123456789"), decimal({units: 1234567890, billionths: 123456789}));
+    t.deepEqual(parse("2147483647"), decimal({units: 2147483647, billionths: 0}));
+    t.is(parse("2147483648"), null);
+    t.deepEqual(parse("1.000000000"), decimal(1));
+    t.is(parse("1.0000000000"), null);
 });
 
 test("format", t => {

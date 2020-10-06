@@ -81,6 +81,26 @@ export function isInteger(value: DecimalLike): boolean {
     return billionths === 0;
 }
 
+export function parse(text: string): Decimal | null {
+    const matches = /^([-+]?)(?:([0-9]{1,10})(?:\.([0-9]{0,9}))?|\.([0-9]{1,9}))$/.exec(text);
+
+    if (matches == null) {
+        return null;
+    }
+
+    const sign = matches[1];
+    const units = parseInt(matches[2] ?? "0", 10);
+    const billionths = parseInt(`${matches[3] ?? matches[4] ?? ""}000000000`.substr(0, 9), 10);
+
+    if (units !== i32(units)) {
+        return null;
+    }
+
+    return sign === "-"
+        ? new StrictDecimal(ineg(units), ineg(billionths))
+        : new StrictDecimal(i32(units), i32(billionths));
+}
+
 export function format(value: DecimalLike): string {
     const {units, billionths} = decimal(value);
 
