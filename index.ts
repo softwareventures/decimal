@@ -1,5 +1,5 @@
 import {Comparator, Comparison} from "@softwareventures/ordered";
-import {iadd, idiv, imod, imul, ipow, isub, isum} from "i32";
+import {i32, iadd, idiv, imod, imul, ipow, isub, isum} from "i32";
 
 class StrictDecimal {
     constructor(public readonly units: number, public readonly billionths: number) {
@@ -64,7 +64,7 @@ export function decimal(value: DecimalLike): Decimal {
             billionths = units;
         }
 
-        return new StrictDecimal(units | 0, billionths | 0);
+        return new StrictDecimal(i32(units), i32(billionths));
     }
 }
 
@@ -101,17 +101,17 @@ export function format(value: DecimalLike): string {
 
 export function formatFixed(value: DecimalLike, fractionDigits = 0): string {
     const n = decimal(value);
-    fractionDigits = Math.max(Math.min(fractionDigits, 9), 0) | 0;
+    fractionDigits = i32(Math.max(Math.min(fractionDigits, 9), 0));
 
     if (fractionDigits === 0) {
         const carry = Number(n.billionths >= 500000000)
             || -Number(n.billionths < -500000000);
-        return ((n.units + carry) | 0).toFixed(0);
+        return iadd(n.units, carry).toFixed(0);
     } else {
         const divisor = Math.pow(10, 9 - fractionDigits);
         const carryPoint = 0.5 * divisor;
         const modulo = n.billionths % divisor;
-        const carry = (divisor * (Number(modulo >= carryPoint) || -Number(modulo < -carryPoint))) | 0;
+        const carry = imul(divisor, (Number(modulo >= carryPoint) || -Number(modulo < -carryPoint)));
         const {units, billionths} = add(n, {billionths: carry});
 
         if (units < 0 || billionths < 0) {
@@ -130,7 +130,7 @@ export function formatFixedFn(fractionDigits = 0): (value: DecimalLike) => strin
 
 export function negate(value: DecimalLike): Decimal {
     const {units, billionths} = decimal(value);
-    return new StrictDecimal(-units | 0, -billionths | 0);
+    return new StrictDecimal(i32(-units), i32(-billionths));
 }
 
 export function add(a: DecimalLike, b: DecimalLike): Decimal {
@@ -290,7 +290,7 @@ export function floor(value: DecimalLike): Decimal {
     } else if (n.billionths > 0) {
         return new StrictDecimal(n.units, 0);
     } else {
-        return new StrictDecimal((n.units - 1) | 0, 0);
+        return new StrictDecimal(i32(n.units - 1), 0);
     }
 }
 
@@ -299,14 +299,14 @@ export function ceil(value: DecimalLike): Decimal {
     if (n.billionths === 0) {
         return n;
     } else if (n.billionths > 0) {
-        return new StrictDecimal((n.units + 1) | 0, 0);
+        return new StrictDecimal(i32(n.units + 1), 0);
     } else {
         return new StrictDecimal(n.units, 0);
     }
 }
 
 export function round(value: DecimalLike, fractionDigits = 0): Decimal {
-    fractionDigits = Math.max(Math.min(fractionDigits, 9), 0) | 0;
+    fractionDigits = i32(Math.max(Math.min(fractionDigits, 9), 0));
 
     if (fractionDigits >= 9) {
         return decimal(value);
