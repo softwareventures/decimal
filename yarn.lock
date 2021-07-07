@@ -442,6 +442,13 @@
   dependencies:
     tslib "^1.9.3 || ^2.0.0 || ^2.1.0"
 
+"@softwareventures/ordered@^0.2.0 || ^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@softwareventures/ordered/-/ordered-1.0.0.tgz#d803eef43bb0b4ccfcd78d2928fe38b5109ad99e"
+  integrity sha512-SUFUYDWEPAS54LpGH+mRHwkGuTINPDt4OOS3h/Zr9f12JPFz2cqh6Xxwg75BZqwaeONuUwmklJVMRmgvxSSkPA==
+  dependencies:
+    tslib "^1.9.3 || ^2.0.0 || ^2.1.0"
+
 "@softwareventures/semantic-release-config@1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@softwareventures/semantic-release-config/-/semantic-release-config-1.2.0.tgz#2dd608e0982826015f8f9adf96889b44cffd12ed"
