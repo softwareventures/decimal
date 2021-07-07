@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@softwareventures/ordered": "^0.2.0",
-    "i32": "^0.3.0"
+    "i32": "^0.3.0 || ^1.0.0"
   },
   "devDependencies": {
     "@softwareventures/semantic-release-config": "1.2.0",

@@ -2225,10 +2225,10 @@ humanize-ms@^1.2.1:
   dependencies:
     ms "^2.0.0"
 
-i32@^0.3.0:
-  version "0.3.17"
-  resolved "https://registry.yarnpkg.com/i32/-/i32-0.3.17.tgz#ca0015a0436e203086f5e210e41cded74bdcc559"
-  integrity sha512-bD+566cU+0yIrvkGZmbAjKE+vicuJqqtcLADa0r/J+eHoWwKdmPdaOW/fi1VwcloT24glv2pHYPeblqKxJ3bsQ==
+"i32@^0.3.0 || ^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/i32/-/i32-1.0.0.tgz#f3fbac7f84e3c0de7912cdcd69c2072d4addaaf9"
+  integrity sha512-/iQTwbWrF/lZl6rOrTo0D9HzGtflo1iZyxc4La95/IW38em8qNhYIUMs+hymiH4bXMPLSFmkNi/nkK7O56Oy0Q==
   dependencies:
     "@softwareventures/array" "^0.31.0 || ^0.33.0 || ^2.0.0 || ^3.0.0"
     "@types/imul" "^1.0.0"
