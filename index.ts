@@ -174,6 +174,27 @@ export function formatDecimalFixedFn(fractionDigits = 0): (value: DecimalLike) =
     return formatFixedFn(fractionDigits);
 }
 
+export function sign(value: DecimalLike): -1 | 0 | 1 {
+    const {units, billionths} = decimal(value);
+    if (units === 0) {
+        if (billionths === 0) {
+            return 0;
+        } else if (billionths < 0) {
+            return -1;
+        } else {
+            return 1;
+        }
+    } else if (units < 0) {
+        return -1;
+    } else {
+        return 1;
+    }
+}
+
+export function decimalSign(value: DecimalLike): -1 | 0 | 1 {
+    return sign(value);
+}
+
 export function negate(value: DecimalLike): Decimal {
     const {units, billionths} = decimal(value);
     return new StrictDecimal(ineg(units), ineg(billionths));
