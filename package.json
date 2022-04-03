@@ -13,6 +13,7 @@
   "repository": "github:softwareventures/decimal",
   "license": "ISC",
   "scripts": {
+    "fix": "tsc --noEmit && tslint --fix --project .",
     "lint": "tsc --noEmit && tslint --project .",
     "prepare": "tsc",
     "semantic-release": "semantic-release",
