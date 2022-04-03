@@ -1,3 +1,4 @@
+import {notNull} from "@softwareventures/nullable";
 import {Comparator, Comparison} from "@softwareventures/ordered";
 import {i32, iadd, idiv, imod, imul, ineg, ipow, isub, isum} from "i32";
 
@@ -259,7 +260,7 @@ export function multiply(a: DecimalLike, b: DecimalLike): Decimal {
         let sum = carry;
         for (let j = Math.max(i - 3, 0); j < 6 && j < i + 3; ++j) {
             const k = i - j + 2;
-            sum = iadd(sum, imul(aThousandths[j], bThousandths[k]));
+            sum = iadd(sum, imul(notNull(aThousandths[j]), notNull(bThousandths[k])));
         }
         cThousandths[i] = imod(sum, 1e3);
         carry = idiv(sum, 1e3);

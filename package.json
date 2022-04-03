@@ -24,6 +24,7 @@
     "node": "^12 || ^14 || >=16"
   },
   "dependencies": {
+    "@softwareventures/nullable": "^2.0.0",
     "@softwareventures/ordered": "^0.2.0 || ^1.0.0",
     "i32": "^0.3.0 || ^1.0.0"
   },
