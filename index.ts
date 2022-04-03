@@ -254,7 +254,7 @@ export function multiply(a: DecimalLike, b: DecimalLike): Decimal {
     const aThousandths = toThousandths(a);
     const bThousandths = toThousandths(b);
 
-    const cThousandths = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const cThousandths: [number, number, number, number, number, number, number, number, number] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     let carry = 0;
     for (let i = 8; i >= 0; --i) {
         let sum = carry;
