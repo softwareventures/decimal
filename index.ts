@@ -27,16 +27,12 @@ export function decimal(value: DecimalLike): Decimal {
             value = {units: value};
         }
 
-        let units = value.units == null
-            ? 0
-            : Math.floor(value.units);
+        let units = value.units == null ? 0 : Math.floor(value.units);
 
         let billionths: number;
 
         if (isFinite(units)) {
-            billionths = value.units == null
-                ? 0
-                : Math.round((value.units - units) * 1e9);
+            billionths = value.units == null ? 0 : Math.round((value.units - units) * 1e9);
 
             if (value.billionths != null) {
                 billionths += Math.round(value.billionths);
@@ -122,15 +118,9 @@ export function format(value: DecimalLike): string {
     if (billionths === 0) {
         return "" + units;
     } else if (units < 0 || billionths < 0) {
-        return "-" + (-units) + "."
-            + ("00000000" + (-billionths))
-                .substr(-9)
-                .replace(/0*$/, "");
+        return "-" + -units + "." + ("00000000" + -billionths).substr(-9).replace(/0*$/, "");
     } else {
-        return "" + units + "."
-            + ("00000000" + billionths)
-                .substr(-9)
-                .replace(/0*$/, "");
+        return "" + units + "." + ("00000000" + billionths).substr(-9).replace(/0*$/, "");
     }
 }
 
@@ -143,22 +133,19 @@ export function formatFixed(value: DecimalLike, fractionDigits = 0): string {
     fractionDigits = i32(Math.max(Math.min(fractionDigits, 9), 0));
 
     if (fractionDigits === 0) {
-        const carry = Number(n.billionths >= 500000000)
-            || -Number(n.billionths < -500000000);
+        const carry = Number(n.billionths >= 500000000) || -Number(n.billionths < -500000000);
         return iadd(n.units, carry).toFixed(0);
     } else {
         const divisor = Math.pow(10, 9 - fractionDigits);
         const carryPoint = 0.5 * divisor;
         const modulo = n.billionths % divisor;
-        const carry = imul(divisor, (Number(modulo >= carryPoint) || -Number(modulo < -carryPoint)));
+        const carry = imul(divisor, Number(modulo >= carryPoint) || -Number(modulo < -carryPoint));
         const {units, billionths} = add(n, {billionths: carry});
 
         if (units < 0 || billionths < 0) {
-            return "-" + (-units) + "."
-                + ("00000000" + (-billionths)).substr(-9, fractionDigits);
+            return "-" + -units + "." + ("00000000" + -billionths).substr(-9, fractionDigits);
         } else {
-            return "" + units + "."
-                + ("00000000" + billionths).substr(-9, fractionDigits);
+            return "" + units + "." + ("00000000" + billionths).substr(-9, fractionDigits);
         }
     }
 }
@@ -254,7 +241,9 @@ export function multiply(a: DecimalLike, b: DecimalLike): Decimal {
     const aThousandths = toThousandths(a);
     const bThousandths = toThousandths(b);
 
-    const cThousandths: [number, number, number, number, number, number, number, number, number] = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    const cThousandths: [number, number, number, number, number, number, number, number, number] = [
+        0, 0, 0, 0, 0, 0, 0, 0, 0
+    ];
     let carry = 0;
     for (let i = 8; i >= 0; --i) {
         let sum = carry;
@@ -573,9 +562,7 @@ export function decimalRoundFn(fractionDigits = 0): (value: DecimalLike) => Deci
 export function max(a: DecimalLike, b: DecimalLike): Decimal {
     const an = decimal(a);
     const bn = decimal(b);
-    return lessThan(an, bn)
-        ? bn
-        : an;
+    return lessThan(an, bn) ? bn : an;
 }
 
 export function maxFn(b: DecimalLike): (a: DecimalLike) => Decimal {
@@ -593,9 +580,7 @@ export function maxDecimalFn(b: DecimalLike): (a: DecimalLike) => Decimal {
 export function min(a: DecimalLike, b: DecimalLike): Decimal {
     const an = decimal(a);
     const bn = decimal(b);
-    return lessThanOrEqual(an, bn)
-        ? an
-        : bn;
+    return lessThanOrEqual(an, bn) ? an : bn;
 }
 
 export function minFn(b: DecimalLike): (a: DecimalLike) => Decimal {
@@ -615,8 +600,14 @@ type Thousandths = [number, number, number, number, number, number];
 /** @internal */
 export function toThousandths(value: DecimalLike): Thousandths {
     const {units, billionths} = decimal(value);
-    return [idiv(units, 1e6), imod(idiv(units, 1e3), 1e3), imod(units, 1e3),
-        idiv(billionths, 1e6), imod(idiv(billionths, 1e3), 1e3), imod(billionths, 1e3)];
+    return [
+        idiv(units, 1e6),
+        imod(idiv(units, 1e3), 1e3),
+        imod(units, 1e3),
+        idiv(billionths, 1e6),
+        imod(idiv(billionths, 1e3), 1e3),
+        imod(billionths, 1e3)
+    ];
 }
 
 /** @internal */
