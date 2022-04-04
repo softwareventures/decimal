@@ -1,3 +1,5 @@
+/* eslint-disable sonarjs/no-identical-expressions,@typescript-eslint/no-base-to-string */
+
 import {Comparison} from "@softwareventures/ordered";
 import test from "ava";
 import {

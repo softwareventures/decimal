@@ -1,9 +1,10 @@
 import {notNull} from "@softwareventures/nullable";
-import {Comparator, Comparison} from "@softwareventures/ordered";
+import type {Comparator} from "@softwareventures/ordered";
+import {Comparison} from "@softwareventures/ordered";
 import {i32, iadd, idiv, imod, imul, ineg, ipow, isub, isum} from "i32";
 
 class StrictDecimal {
-    constructor(public readonly units: number, public readonly billionths: number) {
+    public constructor(public readonly units: number, public readonly billionths: number) {
         Object.freeze(this);
     }
 
@@ -23,19 +24,17 @@ export function decimal(value: DecimalLike): Decimal {
     if (value instanceof StrictDecimal) {
         return value;
     } else {
-        if (typeof value === "number") {
-            value = {units: value};
-        }
+        const source = typeof value === "number" ? {units: value} : value;
 
-        let units = value.units == null ? 0 : Math.floor(value.units);
+        let units = source.units == null ? 0 : Math.floor(source.units);
 
         let billionths: number;
 
         if (isFinite(units)) {
-            billionths = value.units == null ? 0 : Math.round((value.units - units) * 1e9);
+            billionths = source.units == null ? 0 : Math.round((source.units - units) * 1e9);
 
-            if (value.billionths != null) {
-                billionths += Math.round(value.billionths);
+            if (source.billionths != null) {
+                billionths += Math.round(source.billionths);
             }
 
             if (isFinite(billionths)) {
@@ -89,7 +88,7 @@ export function decimalIsInteger(value: DecimalLike): boolean {
 }
 
 export function parse(text: string): Decimal | null {
-    const matches = /^([-+]?)(?:([0-9]{1,10})(?:\.([0-9]{0,9}))?|\.([0-9]{1,9}))$/.exec(text);
+    const matches = /^([-+]?)(?:([0-9]{1,10})(?:\.([0-9]{0,9}))?|\.([0-9]{1,9}))$/u.exec(text);
 
     if (matches == null) {
         return null;
@@ -116,11 +115,11 @@ export function format(value: DecimalLike): string {
     const {units, billionths} = decimal(value);
 
     if (billionths === 0) {
-        return "" + units;
+        return String(units);
     } else if (units < 0 || billionths < 0) {
-        return "-" + -units + "." + ("00000000" + -billionths).substr(-9).replace(/0*$/, "");
+        return `-${-units}.${`00000000${-billionths}`.substr(-9).replace(/0*$/u, "")}`;
     } else {
-        return "" + units + "." + ("00000000" + billionths).substr(-9).replace(/0*$/, "");
+        return `${units}.${`00000000${billionths}`.substr(-9).replace(/0*$/u, "")}`;
     }
 }
 
@@ -130,22 +129,24 @@ export function formatDecimal(value: DecimalLike): string {
 
 export function formatFixed(value: DecimalLike, fractionDigits = 0): string {
     const n = decimal(value);
-    fractionDigits = i32(Math.max(Math.min(fractionDigits, 9), 0));
+    const d = i32(Math.max(Math.min(fractionDigits, 9), 0));
 
-    if (fractionDigits === 0) {
+    if (d === 0) {
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         const carry = Number(n.billionths >= 500000000) || -Number(n.billionths < -500000000);
         return iadd(n.units, carry).toFixed(0);
     } else {
-        const divisor = Math.pow(10, 9 - fractionDigits);
+        const divisor = 10 ** (9 - d);
         const carryPoint = 0.5 * divisor;
         const modulo = n.billionths % divisor;
+        // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
         const carry = imul(divisor, Number(modulo >= carryPoint) || -Number(modulo < -carryPoint));
         const {units, billionths} = add(n, {billionths: carry});
 
         if (units < 0 || billionths < 0) {
-            return "-" + -units + "." + ("00000000" + -billionths).substr(-9, fractionDigits);
+            return `-${-units}.${`00000000${-billionths}`.substr(-9, d)}`;
         } else {
-            return "" + units + "." + ("00000000" + billionths).substr(-9, fractionDigits);
+            return `${units}.${`00000000${billionths}`.substr(-9, d)}`;
         }
     }
 }
@@ -431,8 +432,6 @@ export function decimalTrunc(value: DecimalLike): Decimal {
 }
 
 export function floor(value: DecimalLike, fractionDigits = 0): Decimal {
-    fractionDigits = i32(Math.max(Math.min(fractionDigits, 9), 0));
-
     const n = decimal(value);
 
     if (fractionDigits >= 9 || n.billionths === 0) {
@@ -449,7 +448,7 @@ export function floor(value: DecimalLike, fractionDigits = 0): Decimal {
         }
     }
 
-    const modulus = imul(10, ipow(10, 8 - fractionDigits));
+    const modulus = imul(10, ipow(10, 8 - i32(fractionDigits)));
     const modulo = imod(n.billionths, modulus);
     const truncated = isub(n.billionths, modulo);
 
@@ -473,8 +472,6 @@ export function decimalFloorFn(fractionDigits: number): (value: DecimalLike) => 
 }
 
 export function ceil(value: DecimalLike, fractionDigits = 0): Decimal {
-    fractionDigits = i32(Math.max(Math.min(fractionDigits, 9), 0));
-
     const n = decimal(value);
 
     if (fractionDigits >= 9 || n.billionths === 0) {
@@ -491,7 +488,7 @@ export function ceil(value: DecimalLike, fractionDigits = 0): Decimal {
         }
     }
 
-    const modulus = imul(10, ipow(10, 8 - fractionDigits));
+    const modulus = imul(10, ipow(10, 8 - i32(fractionDigits)));
     const modulo = imod(n.billionths, modulus);
     const truncated = isub(n.billionths, modulo);
 
@@ -515,8 +512,6 @@ export function decimalCeilFn(fractionDigits: number): (value: DecimalLike) => D
 }
 
 export function round(value: DecimalLike, fractionDigits = 0): Decimal {
-    fractionDigits = i32(Math.max(Math.min(fractionDigits, 9), 0));
-
     if (fractionDigits >= 9) {
         return decimal(value);
     }
@@ -533,7 +528,7 @@ export function round(value: DecimalLike, fractionDigits = 0): Decimal {
         }
     }
 
-    const pivot = imul(5, ipow(10, 8 - fractionDigits));
+    const pivot = imul(5, ipow(10, 8 - i32(fractionDigits)));
     const modulus = imul(pivot, 2);
     const modulo = imod(billionths, modulus);
     const truncated = isub(billionths, modulo);
