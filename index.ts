@@ -1,7 +1,7 @@
 import {notNull} from "@softwareventures/nullable";
 import type {Comparator} from "@softwareventures/ordered";
 import {Comparison} from "@softwareventures/ordered";
-import {i32, iadd, idiv, imod, imul, ineg, ipow, isub, isum} from "i32";
+import {i32, iadd, iclamp, idiv, imod, imul, ineg, ipow, isub, isum} from "i32";
 
 class StrictDecimal {
     public constructor(public readonly units: number, public readonly billionths: number) {
@@ -129,7 +129,7 @@ export function formatDecimal(value: DecimalLike): string {
 
 export function formatFixed(value: DecimalLike, fractionDigits = 0): string {
     const n = decimal(value);
-    const d = i32(Math.max(Math.min(fractionDigits, 9), 0));
+    const d = iclamp(fractionDigits, 0, 9);
 
     if (d === 0) {
         // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions

@@ -2688,10 +2688,10 @@ husky@7.0.4:
   resolved "https://registry.yarnpkg.com/husky/-/husky-7.0.4.tgz#242048245dc49c8fb1bf0cc7cfb98dd722531535"
   integrity sha512-vbaCKN2QLtP/vD4yvs6iz6hBEo6wkSzs8HpRah1Z6aGmF2KW5PdYuAd7uX5a+OyBZHBhd+TFLqgjUgytQr4RvQ==
 
-"i32@^0.3.0 || ^1.0.0":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/i32/-/i32-1.0.4.tgz#7030ba7e5b4b15f25006f758ac6ec2d057b37d76"
-  integrity sha512-sSAnsruCf9h6yd6q5OCwSp9bLkKgbcY3tl40ZC3NXhol/T9GnYRpHePloiBBrXTDPx1cA0Yd7XPGIXIvxKTABw==
+i32@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/i32/-/i32-1.1.0.tgz#ca7e22665c96a52f6a1c282382ce95d1af298db7"
+  integrity sha512-FdGaMVnf6yxwc2P1gG+0xUfN4M4ksZHyjOs72k5l9CoSzaDuB/vzpnBFB2jyJ9C+vbsDeYlXzbgaSOj1m496og==
   dependencies:
     "@softwareventures/array" "^0.31.0 || ^0.33.0 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0"
     "@types/imul" "^1.0.0"
