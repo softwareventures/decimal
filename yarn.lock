@@ -525,22 +525,13 @@
     lodash "^4.17.4"
     read-pkg-up "^7.0.0"
 
-"@softwareventures/array@6.0.3":
+"@softwareventures/array@6.0.3", "@softwareventures/array@^0.31.0 || ^0.33.0 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0":
   version "6.0.3"
   resolved "https://registry.yarnpkg.com/@softwareventures/array/-/array-6.0.3.tgz#018a4ec7a1c5e559bc9c5b4a13583a13496acf3a"
   integrity sha512-RPPC4ZClS7HauBgnFVJgVC+WSehCa33sSDE+SE5nDmaMGBvQO+4l99l0+cCXNY89qkzs57Z1iX44m5/rxmyBJg==
   dependencies:
     "@softwareventures/nullable" "^1.0.0 || ^2.0.0 || ^3.0.0"
     "@softwareventures/ordered" "^1.1.0 || ^2.0.0"
-    tslib "^2.0.0"
-
-"@softwareventures/array@^0.31.0 || ^0.33.0 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0":
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/@softwareventures/array/-/array-5.3.0.tgz#25c65761719745521c341df134c78376294ee13e"
-  integrity sha512-1ViQStiZ6XxuvT2UPvc1Nd2brASDsuNM3wWlJpADqEAzJbyHXVCAGaYzOr8TDm2BE9KNK2LmKTf6MnKrNPGyJA==
-  dependencies:
-    "@softwareventures/nullable" "^1.0.0 || ^2.0.0"
-    "@softwareventures/ordered" "^1.1.0"
     tslib "^2.0.0"
 
 "@softwareventures/eslint-config@7.1.0":
@@ -557,24 +548,10 @@
   dependencies:
     tslib "2.4.0"
 
-"@softwareventures/nullable@^1.0.0 || ^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@softwareventures/nullable/-/nullable-2.0.0.tgz#d11498c5fe71bb0b94ba85a40e774c19c721c5d3"
-  integrity sha512-zx+FMgB4MqmqIiCglgP8GZIYPw57yFBuz/jh0kXNAoEtSRl3LkwhaGG0b/y5yae2RsYSaVkNotQaSmJRt5GahA==
-  dependencies:
-    tslib "2.3.0"
-
 "@softwareventures/ordered@^0.2.0 || ^1.0.0 || ^2.0.0", "@softwareventures/ordered@^1.1.0 || ^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@softwareventures/ordered/-/ordered-2.0.0.tgz#feaee7148f6a447f96adaa169d27fd4962b4e3d4"
   integrity sha512-NSNuBWZ8yoNwN3tBD24E+rCHktLdJFnkrVoVy0S5C6OsKZ55viy9+IsMyMnHju2mPoB/iCmzQOPgFj/eu9WpQA==
-  dependencies:
-    tslib "^1.9.3 || ^2.0.0 || ^2.1.0"
-
-"@softwareventures/ordered@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@softwareventures/ordered/-/ordered-1.1.0.tgz#5bd8929574d309738f6bcccaa017557979a4e303"
-  integrity sha512-XkoiEiTiLhDnDHYKmDobtoNlqYEmK/LK/FOeKzfIOB8Xfl9+Q6toDxSasB+T6coOZiJ0GA23XFsSkh0grC2Nng==
   dependencies:
     tslib "^1.9.3 || ^2.0.0 || ^2.1.0"
 
@@ -2653,15 +2630,15 @@ husky@8.0.2:
   resolved "https://registry.yarnpkg.com/husky/-/husky-8.0.2.tgz#5816a60db02650f1f22c8b69b928fd6bcd77a236"
   integrity sha512-Tkv80jtvbnkK3mYWxPZePGFpQ/tT3HNSs/sasF9P2YfkMezDl3ON37YN6jUUI4eTg5LcyVynlb6r4eyvOmspvg==
 
-i32@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/i32/-/i32-1.1.0.tgz#ca7e22665c96a52f6a1c282382ce95d1af298db7"
-  integrity sha512-FdGaMVnf6yxwc2P1gG+0xUfN4M4ksZHyjOs72k5l9CoSzaDuB/vzpnBFB2jyJ9C+vbsDeYlXzbgaSOj1m496og==
+"i32@^1.1.0 || ^2.0.0":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/i32/-/i32-2.0.1.tgz#c51b5d7c1edfa1afe3d46eb99c67c20764148883"
+  integrity sha512-iC5pEafS5cPb96bU7zUgnzyqlQ202hII39vWlBN+XVYt9ilnFUxxNDwMgR12Ze96OVoaZdgotmozn6XcUL8MHA==
   dependencies:
-    "@softwareventures/array" "^0.31.0 || ^0.33.0 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0"
+    "@softwareventures/array" "^0.31.0 || ^0.33.0 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0"
     "@types/imul" "^1.0.0"
     imul "^1.0.1"
-    tslib "2.3.1"
+    tslib "2.4.1"
 
 iconv-lite@^0.4.24:
   version "0.4.24"
@@ -5193,16 +5170,6 @@ tsconfig-paths@^3.14.1:
     json5 "^1.0.1"
     minimist "^1.2.6"
     strip-bom "^3.0.0"
-
-tslib@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.0.tgz#803b8cdab3e12ba581a4ca41c8839bbb0dacb09e"
-  integrity sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==
-
-tslib@2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
-  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
 tslib@2.4.0:
   version "2.4.0"
