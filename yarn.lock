@@ -581,14 +581,15 @@
     "@softwareventures/ordered" "^1.1.0 || ^2.0.0"
     tslib "^2.0.0"
 
-"@softwareventures/eslint-config@7.1.3":
-  version "7.1.3"
-  resolved "https://registry.yarnpkg.com/@softwareventures/eslint-config/-/eslint-config-7.1.3.tgz#62f67d9ad93eb0d8955ad8a3dae989e16f51d783"
-  integrity sha512-MNRzPyT1ii+QLzgwoUvyC6DpJEDlVF6Env+DevN37SJhYerurCdGWfygjIjBF27W0sYsK6DRndWPXbZu9GPrJQ==
+"@softwareventures/eslint-config@10.0.0":
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/@softwareventures/eslint-config/-/eslint-config-10.0.0.tgz#5670433506eb80676aacc3007ad67456bd8bd100"
+  integrity sha512-jzUCbaOgcqBrM96Pb8LWZRZDpUO7aArM0XxmDCbeXgj2s7jOaIMUVzIAEkvcSuyxYiCzlAL+CQVThgLZmiWlBA==
   dependencies:
+    "@softwareventures/nullable" "^3.2.0"
     tslib "^2.3.1"
 
-"@softwareventures/nullable@3.2.0", "@softwareventures/nullable@^1.0.0 || ^2.0.0 || ^3.0.0", "@softwareventures/nullable@^2.0.0 || ^3.0.0":
+"@softwareventures/nullable@3.2.0", "@softwareventures/nullable@^1.0.0 || ^2.0.0 || ^3.0.0", "@softwareventures/nullable@^2.0.0 || ^3.0.0", "@softwareventures/nullable@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@softwareventures/nullable/-/nullable-3.2.0.tgz#b4e1b570ba0086eeeb9350ebd25db2533e3dfe88"
   integrity sha512-xPtUK3GJkrqvOyy14ds5KAJgnB0bbd549ztx6kDpIqk27U0W2Vg1gUBMagmdcRQE+PGFFRimd1C8RVCCizF6Ww==
